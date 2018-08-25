@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hunterstudios.hunters.repository.GameRepository">
+    <select id="select" resultType="Game">
+        SELECT * FROM games WHERE id = #{id}
+    </select>
+    <select id="getLastYear"
+            resultType="Integer">
+        SELECT YEAR(events.date) FROM games INNER JOIN events ON games.event_id = events.id ORDER BY date DESC LIMIT 1
+    </select>
+    <select id="getYearList"
+            resultType="Integer">
+        SELECT DISTINCT YEAR(date) as year FROM games INNER JOIN events ON games.event_id = events.id ORDER BY year
+    </select>
+
+    <resultMap id="gameResult" type="Game">
+        <result property="eventId" column="event_id"/> <!-- TODO automate mapping -->
+        <association property="event" column="event_id" javaType="Event" select="selectEvent"/>
+    </resultMap>
+
+    <select id="selectGame" resultMap="gameResult">
+        SELECT * FROM games WHERE id = #{id}
+    </select>
+
+    <select id="selectEvent" resultType="Event">
+      SELECT * FROM events WHERE ID = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+</head>
+<body>
+    <h1>Event List</h1>
+    <p th:text="${year}"></p>
+
+    <table>
+        <tr th:each="year : ${yearList}">
+            <td th:text="${year}"></td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>タイプ</th>
+            <th>日時</th>
+            <th>場所</th>
+            <th>対戦相手</th>
+        </tr>
+        <tr th:each="event : ${eventList}">
+            <td th:text="${event.id}"></td>
+            <td th:text="${event.type}"></td>
+            <td th:text="${#dates.format(event.date,'yyyy/MM/dd HH:mm')}"></td>
+            <td th:text="${event.location}"></td>
+            <td th:text="${event.opponent}"></td>
+        </tr>
+    </table>
+</body>
+</html>
