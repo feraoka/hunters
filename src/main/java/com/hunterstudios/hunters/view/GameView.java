@@ -1,19 +1,25 @@
 package com.hunterstudios.hunters.view;
 
+import com.hunterstudios.hunters.entity.Game;
+import com.hunterstudios.hunters.helper.DateHelper;
 import java.util.Date;
-import java.util.List;
 import lombok.Data;
 
 @Data
 public class GameView {
-    private int id;
+    private Game game;
     private Date date;
-    private String type;
-    private String location;
     private String result;
-    private String opponent;
-    private List<String> teamA;
-    private List<String> teamB;
-    private String totalScoreA;
-    private String totalScoreB;
+
+    public GameView(Game game) {
+        this.game = game;
+        this.date = DateHelper.toDate(game.getEvent().getDate());
+        if (game.getResult() == 1) {
+            this.result = "勝ち";
+        } else if (game.getResult() == -1) {
+            this.result = "負け";
+        } else {
+            this.result = "引き分け";
+        }
+    }
 }

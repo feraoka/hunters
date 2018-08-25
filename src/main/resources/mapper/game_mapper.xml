@@ -15,16 +15,64 @@
         SELECT DISTINCT YEAR(date) as year FROM games INNER JOIN events ON games.event_id = events.id ORDER BY year
     </select>
 
-    <resultMap id="gameResult" type="Game">
+    <resultMap id="gameResultOrg" type="Game">
         <result property="eventId" column="event_id"/> <!-- TODO automate mapping -->
         <association property="event" column="event_id" javaType="Event" select="selectEvent"/>
     </resultMap>
 
-    <select id="selectGame" resultMap="gameResult">
+    <select id="selectGame" resultMap="gameResultOrg">
         SELECT * FROM games WHERE id = #{id}
     </select>
 
     <select id="selectEvent" resultType="Event">
-      SELECT * FROM events WHERE ID = #{id}
+        SELECT * FROM events WHERE id = #{id}
     </select>
+
+    <select id="selectByPeriod" resultMap="gameResult">
+        SELECT
+            games.id        AS game_id,
+            games.event_id  AS game_event_id,
+            games.result    AS game_result,
+            games.batFirst  AS game_bat_first,
+            games.scoreA    AS game_score_a,
+            games.scoreB    AS game_score_b,
+            games.pointGot  AS game_point_got,
+            games.pointLost AS game_point_lost,
+            events.id       AS event_id,
+            events.date     AS event_date,
+            events.location AS event_location,
+            events.ground   AS event_ground,
+            events.type     AS event_type,
+            events.opponent AS event_opponent,
+            events.status   AS event_status,
+            events.note     AS event_note,
+            events.expense  AS event_expense
+        FROM games
+        INNER JOIN events ON games.event_id = events.id
+        WHERE events.date &gt;= #{begin} AND events.date &lt;= #{end} AND events.status = 2
+        ORDER BY events.date
+    </select>
+
+    <resultMap id="eventResult" type="Event">
+        <id property="id" column="event_id"/>
+        <result property="date" column="event_date"/>
+        <result property="location" column="event_location"/>
+        <result property="ground" column="event_ground"/>
+        <result property="type" column="event_type"/>
+        <result property="opponent" column="event_opponent"/>
+        <result property="status" column="event_status"/>
+        <result property="note" column="event_note"/>
+        <result property="expense" column="event_expense"/>
+    </resultMap>
+    <resultMap id="gameResult" type="Game">
+        <id property="id" column="game_id"/>
+        <result property="eventId" column="game_event_id"/>
+        <result property="result" column="game_result"/>
+        <result property="batFirst" column="game_bat_first"/>
+        <result property="scoreA" column="game_score_a"/>
+        <result property="scoreB" column="game_score_b"/>
+        <result property="pointGot" column="game_point_got"/>
+        <result property="pointLost" column="game_point_lost"/>
+        <association property="event" resultMap="eventResult"/>
+    </resultMap>
 </mapper>

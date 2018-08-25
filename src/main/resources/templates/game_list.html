@@ -17,9 +17,16 @@
     <tr>
         <th>ID</th>
         <th>対戦相手</th>
-        <th>スコア</th>
         <th>勝敗</th>
+        <th>得点</th>
+        <th>失点</th>
     </tr>
+    <tr th:each="game : ${gameList}">
+        <td th:text="${#dates.format(game.date,'yyyy/MM/dd HH:mm')}"></td>
+        <td th:text="${game.game.getEvent().getOpponent()}"></td>
+        <td th:text="${game.result}"></td>
+        <td th:text="${game.game.getPointGot()}"></td>
+        <td th:text="${game.game.getPointLost()}"></td>
 </table>
 </body>
 </html>

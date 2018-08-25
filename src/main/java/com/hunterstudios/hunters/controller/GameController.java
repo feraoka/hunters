@@ -1,6 +1,7 @@
 package com.hunterstudios.hunters.controller;
 
 import com.hunterstudios.hunters.service.GameService;
+import com.hunterstudios.hunters.view.GameView;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class GameController {
         model.addAttribute("yearList", yearList);
         int year = requestedYear == null ? gameService.getRecentYear() : requestedYear;
         model.addAttribute("year", year);
-        //List<GameView> gameList = gameService.getGameList(year);
-        //model.addAttribute("gameList", gameList);
+        List<GameView> gameList = gameService.getGameList(year);
+        model.addAttribute("gameList", gameList);
         return "game_list";
     }
 }

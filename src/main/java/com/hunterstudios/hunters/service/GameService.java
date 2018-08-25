@@ -6,8 +6,8 @@ import com.hunterstudios.hunters.repository.GameRepository;
 import com.hunterstudios.hunters.repository.Period;
 import com.hunterstudios.hunters.view.GameView;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,7 @@ public class GameService {
     public List<GameView> getGameList(int year) {
         Period period = DateHelper.createYearPeriod(year);
         List<Game> gameList = gameRepository.selectByPeriod(period);
-        //Game game = gameMapper.select(1);
-        return new ArrayList<>();
+        return gameList.stream().map(g -> new GameView(g)).collect(Collectors.toList());
     }
 
     public int getRecentYear() {
@@ -33,6 +32,8 @@ public class GameService {
         System.out.println("game event id: " + game.getEventId());
         System.out.println("event id: " + game.getEvent().getId());
         System.out.println("date: " + game.getEvent().getDate());
+        System.out.println("batFirst: " + game.isBatFirst());
+        System.out.println("scoreA: " + game.getScoreA());
 
         Integer year = gameRepository.getLastYear();
         if (year == null) {
