@@ -4,15 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hunterstudios.hunters.repository.GameRepository">
     <select id="select" resultType="Game">
-        SELECT * FROM games WHERE id = #{id}
+        SELECT *
+        FROM games
+        WHERE id = #{id}
     </select>
     <select id="getLastYear"
             resultType="Integer">
-        SELECT YEAR(events.date) FROM games INNER JOIN events ON games.event_id = events.id ORDER BY date DESC LIMIT 1
+        SELECT YEAR(events.date)
+        FROM games
+                 INNER JOIN events ON games.event_id = events.id
+        ORDER BY date DESC
+        LIMIT 1
     </select>
     <select id="getYearList"
             resultType="Integer">
-        SELECT DISTINCT YEAR(date) as year FROM games INNER JOIN events ON games.event_id = events.id ORDER BY year
+        SELECT DISTINCT YEAR(date) as year
+        FROM games
+                 INNER JOIN events ON games.event_id = events.id
+        ORDER BY year
     </select>
 
     <resultMap id="gameResultOrg" type="Game">
@@ -21,35 +30,40 @@
     </resultMap>
 
     <select id="selectGame" resultMap="gameResultOrg">
-        SELECT * FROM games WHERE id = #{id}
+        SELECT *
+        FROM games
+        WHERE id = #{id}
     </select>
 
     <select id="selectEvent" resultType="Event">
-        SELECT * FROM events WHERE id = #{id}
+        SELECT *
+        FROM events
+        WHERE id = #{id}
     </select>
 
     <select id="selectByPeriod" resultMap="gameResult">
-        SELECT
-            games.id        AS game_id,
-            games.event_id  AS game_event_id,
-            games.result    AS game_result,
-            games.batFirst  AS game_bat_first,
-            games.scoreA    AS game_score_a,
-            games.scoreB    AS game_score_b,
-            games.pointGot  AS game_point_got,
-            games.pointLost AS game_point_lost,
-            events.id       AS event_id,
-            events.date     AS event_date,
-            events.location AS event_location,
-            events.ground   AS event_ground,
-            events.type     AS event_type,
-            events.opponent AS event_opponent,
-            events.status   AS event_status,
-            events.note     AS event_note,
-            events.expense  AS event_expense
+        SELECT games.id        AS game_id,
+               games.event_id  AS game_event_id,
+               games.result    AS game_result,
+               games.batFirst  AS game_bat_first,
+               games.scoreA    AS game_score_a,
+               games.scoreB    AS game_score_b,
+               games.pointGot  AS game_point_got,
+               games.pointLost AS game_point_lost,
+               events.id       AS event_id,
+               events.date     AS event_date,
+               events.location AS event_location,
+               events.ground   AS event_ground,
+               events.type     AS event_type,
+               events.opponent AS event_opponent,
+               events.status   AS event_status,
+               events.note     AS event_note,
+               events.expense  AS event_expense
         FROM games
-        INNER JOIN events ON games.event_id = events.id
-        WHERE events.date &gt;= #{begin} AND events.date &lt;= #{end} AND events.status = 2
+                 INNER JOIN events ON games.event_id = events.id
+        WHERE events.date &gt;= #{begin}
+          AND events.date &lt;= #{end}
+          AND events.status = 2
         ORDER BY events.date
     </select>
 

@@ -12,4 +12,5 @@ public interface EventRepository {
     List<Event> selectByPeriod(Period period);
     Integer getLastYear();
     List<String> getYearList();
+    Event getGameAndBattings(int id);
 }

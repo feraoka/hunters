@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hunterstudios.hunters.repository.BattingRepository">
+
+    <select id="getNumInnings" resultType="Integer">
+        SELECT max(battings.inning)
+        FROM battings
+                 INNER JOIN batters ON battings.batter_id = batters.id
+        WHERE batters.event_id = #{eventId}
+    </select>
+
+    <select id="getBatterList" resultMap="batterResult">
+        SELECT batters.id        AS batter_id,
+               batters.event_id  AS batter_event_id,
+               batters.member_id AS batter_member_id,
+               batters.bOrder    AS batter_order,
+               members.id        AS member_id,
+               members.nick_name AS member_nickname
+        FROM batters
+                 INNER JOIN members ON batters.member_id = members.id
+        WHERE batters.event_id = #{eventId}
+        ORDER BY batters.bOrder
+    </select>
+    <resultMap id="memberResult" type="Member">
+        <id property="id" column="member_id"/>
+        <result property="nickname" column="member_nickname"/>
+    </resultMap>
+
+    <resultMap id="batterResult" type="Batter">
+        <id property="id" column="batter_id"/>
+        <result property="eventId" column="batter_event_id"/>
+        <result property="memberId" column="batter_member_id"/>
+        <result property="bOrder" column="batter_order"/>
+        <association property="member" resultMap="memberResult"/>
+    </resultMap>
+
+    <select id="getBattingsByBatterId" resultType="Batting">
+        SELECT *
+        FROM battings
+        WHERE battings.batter_id = #{batterId}
+    </select>
+
+</mapper>

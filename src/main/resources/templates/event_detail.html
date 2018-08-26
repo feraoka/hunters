@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" media="all" th:href="@{/css/base_025zilla.css}"/>
+    <title>Event Detail</title>
+</head>
+<body>
+<h1>Event Detail</h1>
+
+<h2>Scoreboard</h2>
+<p th:text="${event.date}"></p>
+<table class="bbase">
+    <tr>
+        <td th:each="score : ${event.scoreboard[0]}">
+            <div th:text="${score}"></div>
+        </td>
+    </tr>
+    <tr>
+        <td th:each="score : ${event.scoreboard[1]}">
+            <div th:text="${score}"></div>
+        </td>
+    </tr>
+    <tr>
+        <td th:each="score : ${event.scoreboard[2]}">
+            <div th:text="${score}"></div>
+        </td>
+    </tr>
+</table>
+
+<table class="bbase">
+    <tr th:each="batter : ${event.batting}">
+        <td th:each="batting : ${batter}">
+            <div th:text="${batting}"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

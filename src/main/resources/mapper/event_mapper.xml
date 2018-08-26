@@ -5,22 +5,117 @@
 
 <mapper namespace="com.hunterstudios.hunters.repository.EventRepository">
     <select id="select" resultType="com.hunterstudios.hunters.entity.Event">
-        SELECT * FROM events WHERE id = #{id}
+        SELECT *
+        FROM events
+        WHERE id = #{id}
     </select>
 
     <select id="selectByPeriod"
             parameterType="com.hunterstudios.hunters.repository.Period"
             resultType="Event">
-        SELECT * FROM events WHERE date &gt;= #{begin} AND date &lt;= #{end} AND status = 2 ORDER BY date
+        SELECT *
+        FROM events
+        WHERE date &gt;= #{begin}
+          AND date &lt;= #{end}
+          AND status = 2
+        ORDER BY date
     </select>
 
     <select id="getLastYear"
             resultType="Integer">
-        SELECT YEAR(date) as year FROM events WHERE status = 2 ORDER BY date DESC LIMIT 1
+        SELECT YEAR(date) as year
+        FROM events
+        WHERE status = 2
+        ORDER BY date DESC
+        LIMIT 1
     </select>
 
     <select id="getYearList"
             resultType="String">
-        SELECT DISTINCT YEAR(date) as year FROM events ORDER BY year
+        SELECT DISTINCT YEAR(date) as year
+        FROM events
+        ORDER BY year
+    </select>
+
+    <select id="getGameAndBattings" resultMap="eventAllResult">
+        SELECT events.id       AS event_id,
+               events.date     AS event_date,
+               events.location AS event_location,
+               events.ground   AS event_ground,
+               events.type     AS event_type,
+               events.opponent AS event_opponent,
+               events.status   AS event_status,
+               events.note     AS event_note,
+               events.expense  AS event_expense,
+               games.id        AS game_id,
+               games.event_id  AS game_event_id,
+               games.result    AS game_result,
+               games.batFirst  AS game_bat_first,
+               games.scoreA    AS game_score_a,
+               games.scoreB    AS game_score_b,
+               games.pointGot  AS game_point_got,
+               games.pointLost AS game_point_lost
+        FROM events
+                 INNER JOIN games ON events.id = games.event_id
+        WHERE events.id = #{id}
+    </select>
+
+    <resultMap id="eventAllResult" type="Event">
+        <id property="id" column="event_id"/>
+        <result property="date" column="event_date"/>
+        <result property="location" column="event_location"/>
+        <result property="ground" column="event_ground"/>
+        <result property="type" column="event_type"/>
+        <result property="opponent" column="event_opponent"/>
+        <result property="status" column="event_status"/>
+        <result property="note" column="event_note"/>
+        <result property="expense" column="event_expense"/>
+        <association property="game" resultMap="gameResult"/>
+        <collection property="batters" javaType="ArrayList" column="event_id" ofType="Batter" select="getBatters" />
+    </resultMap>
+
+    <resultMap id="gameResult" type="Game">
+        <id property="id" column="game_id"/>
+        <result property="eventId" column="game_event_id"/>
+        <result property="result" column="game_result"/>
+        <result property="batFirst" column="game_bat_first"/>
+        <result property="scoreA" column="game_score_a"/>
+        <result property="scoreB" column="game_score_b"/>
+        <result property="pointGot" column="game_point_got"/>
+        <result property="pointLost" column="game_point_lost"/>
+    </resultMap>
+
+    <select id="getBatters" resultMap="batterResult">
+        SELECT batters.id        AS batter_id,
+               batters.event_id  AS batter_event_id,
+               batters.member_id AS batter_member_id,
+               batters.bOrder    AS batter_order,
+               members.id        AS member_id,
+               members.nick_name AS member_nickname
+        FROM batters
+                 INNER JOIN members ON batters.member_id = members.id
+        WHERE batters.event_id = #{id}
+        ORDER BY batters.bOrder
+    </select>
+
+    <resultMap id="memberResult" type="Member">
+        <id property="id" column="member_id"/>
+        <result property="nickname" column="member_nickname"/>
+    </resultMap>
+
+    <resultMap id="batterResult" type="Batter">
+        <id property="id" column="batter_id"/>
+        <result property="eventId" column="batter_event_id"/>
+        <result property="memberId" column="batter_member_id"/>
+        <result property="bOrder" column="batter_order"/>
+        <association property="member" resultMap="memberResult"/>
+        <collection property="battings" javaType="ArrayList" column="batter_id" ofType="Batting" select="getBattings" />
+    </resultMap>
+
+    <select id="getBattings" resultType="Batting">
+        SELECT *
+        FROM battings
+        WHERE battings.batter_id = #{id}
+        ORDER BY battings.inning, battings.number
     </select>
 </mapper>
