@@ -81,8 +81,6 @@ public class EventService {
         List<Batter> batters = event.getBatters();
         int innings = batters.stream().map(Batter::getBattings).flatMap(Collection::stream)
                 .map(Batting::getInning).max(Comparator.naturalOrder()).orElse(0);
-
-        IntStream.rangeClosed(1, innings).forEach(System.out::println);
         List<List<String>> battingTable = new ArrayList<>();
         List<String> header = new ArrayList<>();
         header.add("打者");
