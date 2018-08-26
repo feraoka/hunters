@@ -1,0 +1,419 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #000;
+	color:#fff;
+	text-align: justify;
+	font-family:arial,helvetica,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"MS Pゴシック",clean,sans-serif;
+	font-size:13px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+}
+
+body *{
+	line-height:1.4;
+}
+
+h1, h2, h3, h4, h5, h6{
+	color: #c60;
+}
+
+a:link{
+	color:#fff;
+	text-decoration:underline;
+}
+a:visited{
+	color:#eee;
+	text-decoration:underline;
+}
+a:hover{
+	color:#c60;
+	text-decoration:none;
+}
+a:active{
+	color:#c60;
+	text-decoration:none;
+}
+
+#container {
+	width:900px;
+	margin:0 auto;
+}
+	
+#header{
+	width:100%;
+}
+
+#header h1 {
+	margin:0 0 0 10px;
+	padding-top:16px;
+	font-size:36px;
+	color:#C60;
+}
+#header h1 a{
+	color:#C60;
+	text-decoration:none;
+}
+
+#header  h2 {
+	margin: 0 0 10px 25px;
+	font-size:24px;
+	color:#fff;
+}
+#header h2 a{
+	color:#fff;
+	text-decoration:none;
+}
+
+	
+#navigation {
+	width:100%;
+	text-align:right;
+	background-color:#333333;
+}
+#navigation p{
+	color:#fff;
+	margin:3px;
+}
+
+#navigation p a{
+	text-decoration:none;
+}
+
+#vertinav {
+	width:149px;
+	float:left;
+	overflow:hidden;
+	padding:1em 0 1em 1px;
+	}
+	
+
+#content {
+        width:700px;
+	float:right;
+	margin-bottom:15px;
+	padding:1em 0 1em 15px;
+}
+
+
+#footer {
+	width:100%;
+	background-color:#333333;
+	text-align:center;
+	clear: both;
+	color:#000;
+	padding-bottom:1em;
+	margin-bottom:10px;
+	}
+	
+
+#footer a{
+	color:#000;
+	text-decoration:none;
+	}
+	
+#footer a:hover {
+	color:#C60;
+}
+
+/* WIKI RULES */
+
+#body p,
+#body dl,
+#body,
+#vertinav p,
+#vertinav dl,
+#vertinav {
+	display: block;
+	margin: 1em 0;
+}
+#body dd,
+#vertinav dd{
+	display: block;
+	margin-left: 20px;
+}
+
+#body blockquote,
+#vertinav blockquote{
+	display: block;
+	margin: 1em 0 1em 1em;
+	padding-left: 1em;
+	border-left: solid;
+	border-color: #fff;
+	border-width: 5px;
+}
+
+#body address,
+#vertinav address{
+	display: block;
+	font-style: italic;
+}
+
+#body center,
+#vertinav center{
+	display: block;
+	text-align: center;
+}
+
+#body h1,
+#vertinav h1{
+	margin: 13px 0;
+}
+#body h2,
+#vertinav h2{
+	margin: 13px 0;
+}
+#body h3,
+#vertinav h3{
+	margin: 13px 0;
+}
+#body h4,
+#vertinav h4{
+	margin: 13px 0;
+}
+#body h5,
+#vertinav h5{
+	margin: 13px 0;
+}
+#body h6,
+#vertinav h6{
+	margin: 13px 0;
+}
+
+pre {
+	display: block;
+	white-space: pre;
+	margin: 1em 0;
+	border:1px dotted #999;
+	padding:1em;
+}
+
+table.bbase {
+	display: table;
+	border-spacing: 2px;
+        border-collapse: collapse;
+        margin-top: 1em;
+	margin-bottom: 1em;
+	-moz-box-sizing: border-box;
+	text-indent: 0;
+	border:1px solid #555;
+}
+
+table.bbase td {
+  display: table-cell;
+  vertical-align: inherit;
+  /* text-align: inherit; */
+  padding: 3px;
+  border:1px solid #555;
+}
+
+.bbase th {
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold;
+  padding: 3px;
+  border:1px solid #555;
+}
+
+#body q:before,
+#vertinav q:before{
+	content: open-quote;
+}
+
+#body q:after,
+#vertinav q:after{
+	content: close-quote;
+}
+
+#body b, 
+#body strong,
+#vertinav b, 
+#vertinav strong{
+	font-weight: bolder;
+}
+
+#body i, 
+#body cite, 
+#body em, 
+#body var, 
+#body dfn,
+#vertinav i, 
+#vertinav cite, 
+#vertinav em, 
+#vertinav var, 
+#vertinav dfn {
+	font-style: italic;
+}
+
+#body u, 
+#body ins,
+#vertinav u, 
+#vertinav ins{
+	text-decoration: underline;
+}
+
+#body s, 
+#body strike, 
+#body del,
+#vertinav s, 
+#vertinav strike, 
+#vertinav del{
+	text-decoration: line-through;
+}
+
+#body sub,
+#vertinav sub{
+	vertical-align: sub;
+	font-size: smaller;
+	line-height: normal;
+}
+
+#body sup,
+#vertinav sup{
+	vertical-align: super;
+	font-size: smaller;
+	line-height: normal;
+}
+
+#body nobr,
+#vertinav nobr{
+	white-space: nowrap;
+}
+
+#body abbr[title], 
+#body acronym[title],
+#vertinav abbr[title], 
+#vertinav acronym[title]{
+	border-bottom: dotted 1px;
+}
+
+#body ul,
+#vertinav ul{
+	display: block;
+	list-style-type: disc;
+	margin: 1em 0;
+	padding-left: 25px;
+}
+
+#body ol,
+#vertinav ol{
+	display: block;
+	list-style-type: decimal;
+	margin: 1em 0;
+	padding-left: 25px;
+}
+
+#body li,
+#vertinav li{
+	display: list-item;
+}
+
+#body ul ul,
+#body ul ol,
+#body ul dl,
+#body ol ul,
+#body ol ol,
+#body ol dl,
+#body dl ul,
+#body dl ol,
+#body dl dl,
+#vertinav ul ul,
+#vertinav ul ol,
+#vertinav ul dl,
+#vertinav ol ul,
+#vertinav ol ol,
+#vertinav ol dl,
+#vertinav dl ul,
+#vertinav dl ol,
+#vertinav dl dl {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#body ol ul,
+#body ul ul,
+#vertinav ol ul,
+#vertinav ul ul{
+	list-style-type: circle;
+}
+
+#body ol ol ul,
+#body ol ul ul,
+#body ul ol ul,
+#body ul ul ul,
+#vertinav ol ol ul,
+#vertinav ol ul ul,
+#vertinav ul ol ul,
+#vertinav ul ul ul{
+	list-style-type: square;
+}
+
+#body hr,
+#vertinav hr{
+	display: block;
+	height: 1px;
+	border: 1px;
+	margin: 0.5em auto 0.5em auto;
+}
+
+#vertinav fieldset{
+	width:145px;
+	overflow:hidden;
+}
+
+#vertinav select{
+	max-width:145px;
+}
+#vertinav input{
+	max-width:145px;
+}
+#vertinav textarea{
+	max-width:145px;
+}
+
+span.word1{ color: #000; background-color: #ffff66; }
+span.word2{ color: #000; background-color: #a0ffff; }
+span.word3{ color: #000; background-color: #99ff99; }
+span.word4{ color: #000; background-color: #ff9999; }
+span.word5{ color: #000; background-color: #ff66ff; }
+span.word6{ color: #fff; background-color: #880000; }
+span.word7{ color: #fff; background-color: #00aa00; }
+span.word8{ color: #fff; background-color: #886800; }
+span.word9{ color: #fff; background-color: #004699; }
+span.word10{ color: #fff; background-color: #990099; }
+
+
+/* Hides from IE-mac \*/
+ * html #source___Frame{ width:97% !important;}
+ /* End hide from IE-mac */
+
+#form .input { display: inline; }
+
+.error-message { color: #f00; }
+
+/* bbase extension */
+#selected {
+   color: #fff;
+   background-color:#636;
+}
+
+td.number { 
+  text-align: right;
+}
+
+#comment {
+  margin-left: 20px;
+  border: 3px dotted #222;
+  padding-left: 15px;
+  background-color: #000;
+}
+
+#edit {
+  float: right;
+  font-size: 12px;
+  font-weight: normal;
+}
