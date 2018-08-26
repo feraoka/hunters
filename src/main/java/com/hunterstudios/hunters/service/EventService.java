@@ -11,7 +11,6 @@ import com.hunterstudios.hunters.view.EventDetailView;
 import com.hunterstudios.hunters.view.EventView;
 import java.time.OffsetDateTime;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.NonNull;
