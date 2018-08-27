@@ -9,37 +9,64 @@
 <body>
 <h1>Event Detail</h1>
 
-<h2>Scoreboard</h2>
-<p th:text="${event.date}"></p>
+<table class="bbase">
+    <tr>
+        <td>タイプ</td>
+        <td th:text="${event.event.type}"></td>
+    </tr>
+    <tr>
+        <td>日時</td>
+        <td th:text="${#dates.format(event.date,'yyyy/MM/dd HH:mm')}"></td>
+    </tr>
+    <tr>
+        <td>場所</td>
+        <td th:text="${event.event.location}"></td>
+    </tr>
+    <tr>
+        <td>対戦相手</td>
+        <td th:text="${event.event.opponent}"></td>
+    </tr>
+    <tr>
+        <td>結果</td>
+        <td>
+            <div th:if="${event.event.game}">
+                <table class="bbase">
+                    <tr>
+                        <td th:each="score : ${event.scoreboard[0]}">
+                            <div th:text="${score}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:each="score : ${event.scoreboard[1]}">
+                            <div th:text="${score}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:each="score : ${event.scoreboard[2]}">
+                            <div th:text="${score}"></div>
+                        </td>
+                    </tr>
+                </table>
 
-<div th:if="${event.event.game}">
-    <table class="bbase">
-        <tr>
-            <td th:each="score : ${event.scoreboard[0]}">
-                <div th:text="${score}"></div>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="score : ${event.scoreboard[1]}">
-                <div th:text="${score}"></div>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="score : ${event.scoreboard[2]}">
-                <div th:text="${score}"></div>
-            </td>
-        </tr>
-    </table>
+                <table class="bbase">
+                    <tr th:each="batter : ${event.batting}">
+                        <td th:each="batting : ${batter}">
+                            <div th:text="${batting}"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>メモ</td>
+        <td th:utext="${event.event.note}"></td>
+    </tr>
+    <tr>
+        <td>参加</td>
+        <td>TODO</td>
+    </tr>
+</table>
 
-    <table class="bbase">
-        <tr th:each="batter : ${event.batting}">
-            <td th:each="batting : ${batter}">
-                <div th:text="${batting}"></div>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<p th:utext="${event.event.note}"></p>
 </body>
 </html>
