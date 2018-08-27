@@ -52,8 +52,10 @@ public class EventService {
     public EventDetailView getDetails(int id) {
         Event event = eventRepository.getGameAndBattings(id);
         EventDetailView view = new EventDetailView(event);
-        view.setScoreboard(makeScore(event));
-        view.setBatting(makeBatting(event));
+        if (event.getGame() != null) {
+            view.setScoreboard(makeScore(event));
+            view.setBatting(makeBatting(event));
+        }
         return view;
     }
 
