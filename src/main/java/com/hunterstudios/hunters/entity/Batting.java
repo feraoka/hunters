@@ -106,6 +106,18 @@ public class Batting {
 
     @Override
     public String toString() {
-        return DIRECTIONS[direction] + RESULT[result];
+        StringBuilder builder = new StringBuilder();
+        builder.append(DIRECTIONS[direction])
+                .append(RESULT[result]);
+        if (point > 0) {
+            builder.append("*");
+        }
+        if (rbi > 0) {
+            builder.append(rbi);
+        }
+        for (int i = 0; i < steal; i++) {
+            builder.append("s");
+        }
+        return builder.toString();
     }
 }

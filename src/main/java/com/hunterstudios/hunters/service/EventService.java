@@ -42,6 +42,13 @@ public class EventService {
         return year;
     }
 
+    /**
+     * create event detail view
+     * TODO unescape html coded characters in event note, and replace return code with <br/>
+     *
+     * @param id event ID
+     * @return EventDetailView object
+     */
     public EventDetailView getDetails(int id) {
         Event event = eventRepository.getGameAndBattings(id);
         EventDetailView view = new EventDetailView(event);

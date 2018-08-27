@@ -56,7 +56,7 @@
                games.pointGot  AS game_point_got,
                games.pointLost AS game_point_lost
         FROM events
-                 INNER JOIN games ON events.id = games.event_id
+                 LEFT OUTER JOIN games ON events.id = games.event_id
         WHERE events.id = #{id}
     </select>
 
