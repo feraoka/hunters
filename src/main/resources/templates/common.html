@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="header" th:fragment="header">
+    <h1><a href="/">ハンターズ秘密基地</a></h1>
+
+    <div id="navigation">
+        <a href="/users/login">管理</a>
+    </div> <!-- navigation -->
+</div> <!-- header -->
+
+<div id="menu" th:fragment="menu">
+
+    <h3> メニュー </h3>
+    <ul>
+        <!--	  <li> <a href="/events">今後の予定</a> </li> -->
+        <li><a href="/events">活動記録</a></li>
+        <li><a href="/games">対戦成績</a></li>
+        <li><a href="/battings">打撃成績</a></li>
+        <li><a href="/members">メンバー</a></li>
+        <li><a href="/members/expense">ブヒブヒッ</a></li>
+    </ul>
+
+    <h3> リンク </h3>
+    <ul>
+        <li><a href="http://www10.atwiki.jp/monstars2/">基地外</a></li>
+        <li><a href="https://www.ocean-league.com/">オーシャンリーグ</a></li>
+    </ul>
+
+</div> <!-- vertinav -->
+
+<div id="footer" th:fragment="footer">
+    <a href="https://github.com/feraoka/hunters">
+        &copy; Hunter Studios
+    </a>
+</div> <!-- footer -->
+</body>
+</html>

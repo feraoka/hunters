@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>今後の予定</h1>
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

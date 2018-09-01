@@ -4,32 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Event List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
 </head>
 <body>
-    <h1>Event List</h1>
-    <p th:text="${year}"></p>
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
 
-    <table>
-        <tr th:each="year : ${yearList}">
-            <td th:text="${year}"></td>
-        </tr>
-    </table>
+    <div id="content">
+        <h1>活動記録</h1>
+        <form id="EventDoneForm" method="post" action="/events/done">
+            <fieldset style="display:none;"><input type="hidden" name="_method" value="POST"/></fieldset>
+            <table class="bbase">
+                <tr>
+                    <td>
+                        <select title="selectYear" name="year" id="year">
+                            <option th:each="y : ${yearList}" th:value="${y}" th:selected="${y} == ${year}">[[${y}]]
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="submit"><input type="submit" value="Go"/></div>
+                    </td>
+                </tr>
+            </table>
+        </form>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>タイプ</th>
-            <th>日時</th>
-            <th>場所</th>
-            <th>対戦相手</th>
-        </tr>
-        <tr th:each="event : ${eventList}">
-            <td th:text="${event.event.id}"></td>
-            <td th:text="${event.event.type}"></td>
-            <td th:text="${#dates.format(event.date,'yyyy/MM/dd HH:mm')}"></td>
-            <td th:text="${event.event.location}"></td>
-            <td th:text="${event.event.opponent}"></td>
-        </tr>
-    </table>
+        <table class="bbase">
+            <tr>
+                <th>タイプ</th>
+                <th>日時</th>
+                <th>場所</th>
+                <th>対戦相手</th>
+            </tr>
+            <tr th:each="event : ${eventList}">
+                <td>
+                    <a th:href="@{/events/{id}(id=${event.event.id})}" th:text="${event.event.type}"></a>
+                </td>
+                <td th:text="${#dates.format(event.date,'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${event.event.location}"></td>
+                <td th:text="${event.event.opponent}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:replace="common :: footer">...</div>
+</div>
 </body>
 </html>
