@@ -11,11 +11,13 @@ import com.hunterstudios.hunters.view.EventDetailView;
 import com.hunterstudios.hunters.view.EventView;
 import java.time.OffsetDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -81,7 +83,12 @@ public class EventService {
         list.add(name);
         List<String> points = Arrays.asList(rawScore.split(","));
         list.addAll(points);
-        int total = points.stream().mapToInt(Integer::parseInt).sum();
+        String regex = "[xX]*$";
+        Pattern pattern = Pattern.compile(regex);
+
+        int total = points.stream().map(p -> pattern.matcher(p).replaceAll(""))
+                .filter(p -> !StringUtils.isEmpty(p))
+                .mapToInt(Integer::parseInt).sum();
         list.add(String.valueOf(total));
         return list;
     }
