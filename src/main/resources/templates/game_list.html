@@ -10,6 +10,7 @@
         function selectYear() {
             location.href = document.select_year.year.value
         }
+
         /*]]>*/
     </script>
 </head>
@@ -17,34 +18,35 @@
 <div id="container">
     <div th:replace="common :: header">...</div>
     <div th:replace="common :: menu">...</div>
+    <div id="content">
+        <h1>対戦結果</h1>
+        <form name="select_year" method="post" OnChange="selectYear()">
+            <select title="year" name="year" id="year">
+                <option th:each="y : ${yearList}" th:value="'/games?year=' + ${y}" th:selected="${y} == ${year}">
+                    [[${y}]]
+                </option>
+            </select>
+        </form>
 
-    <h1>対戦結果</h1>
-    <form name="select_year" method="post" OnChange="selectYear()">
-        <select title="year" name="year" id="year">
-            <option th:each="y : ${yearList}" th:value="'/games?year=' + ${y}" th:selected="${y} == ${year}">[[${y}]]
-            </option>
-        </select>
-    </form>
-
-    <table class="bbase">
-        <tr>
-            <th>日時</th>
-            <th>対戦相手</th>
-            <th>勝敗</th>
-            <th>得点</th>
-            <th>失点</th>
-        </tr>
-        <tr th:each="game : ${gameList}">
-            <td>
-                <a th:href="@{/events/{id}(id=${game.game.eventId})}"
-                   th:text="${#dates.format(game.date,'yyyy-MM-dd HH:mm')}"></a>
-            </td>
-            <td th:text="${game.game.getEvent().getOpponent()}"></td>
-            <td align="center" th:text="${game.result}"></td>
-            <td align="right" th:text="${game.game.getPointGot()}"></td>
-            <td align="right" th:text="${game.game.getPointLost()}"></td>
-    </table>
-
+        <table class="bbase">
+            <tr>
+                <th>日時</th>
+                <th>対戦相手</th>
+                <th>勝敗</th>
+                <th>得点</th>
+                <th>失点</th>
+            </tr>
+            <tr th:each="game : ${gameList}">
+                <td>
+                    <a th:href="@{/events/{id}(id=${game.game.eventId})}"
+                       th:text="${#dates.format(game.date,'yyyy-MM-dd HH:mm')}"></a>
+                </td>
+                <td th:text="${game.game.getEvent().getOpponent()}"></td>
+                <td align="center" th:text="${game.result}"></td>
+                <td align="right" th:text="${game.game.getPointGot()}"></td>
+                <td align="right" th:text="${game.game.getPointLost()}"></td>
+        </table>
+    </div>
 
     <div th:replace="common :: footer">...</div>
 </div>

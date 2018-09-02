@@ -10,6 +10,7 @@
         function selectYear() {
             location.href = document.select_year.year.value
         }
+
         /*]]>*/
     </script>
 </head>
@@ -20,6 +21,7 @@
 
     <div id="content">
         <h1>活動記録</h1>
+
         <form name="select_year" method="post" OnChange="selectYear()">
             <select title="year" name="year" id="year">
                 <option th:each="y : ${yearList}" th:value="'/events?year=' + ${y}" th:selected="${y} == ${year}">
