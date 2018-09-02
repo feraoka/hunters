@@ -15,11 +15,11 @@ public class GameView {
         this.game = game;
         this.date = DateHelper.toDate(game.getEvent().getDate());
         if (game.getResult() == 1) {
-            this.result = "○";
+            this.result = "勝ち";
         } else if (game.getResult() == -1) {
-            this.result = "●";
+            this.result = "負け";
         } else {
-            this.result = "△";
+            this.result = "引分";
         }
     }
 }

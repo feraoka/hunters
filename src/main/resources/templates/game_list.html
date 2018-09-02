@@ -3,32 +3,50 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Game List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function selectYear() {
+            location.href = document.select_year.year.value
+        }
+        /*]]>*/
+    </script>
 </head>
 <body>
-<h1>Game List</h1>
-<p th:text="${year}"></p>
-<table>
-    <tr th:each="year : ${yearList}">
-        <td th:text="${year}"></td>
-    </tr>
-</table>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>日時</th>
-        <th>対戦相手</th>
-        <th>勝敗</th>
-        <th>得点</th>
-        <th>失点</th>
-    </tr>
-    <tr th:each="game : ${gameList}">
-        <td th:text="${game.game.getEventId()}"></td>
-        <td th:text="${#dates.format(game.date,'yyyy/MM/dd HH:mm')}"></td>
-        <td th:text="${game.game.getEvent().getOpponent()}"></td>
-        <td th:text="${game.result}"></td>
-        <td th:text="${game.game.getPointGot()}"></td>
-        <td th:text="${game.game.getPointLost()}"></td>
-</table>
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <h1>対戦結果</h1>
+    <form name="select_year" method="post" OnChange="selectYear()">
+        <select title="year" name="year" id="year">
+            <option th:each="y : ${yearList}" th:value="'/games?year=' + ${y}" th:selected="${y} == ${year}">[[${y}]]
+            </option>
+        </select>
+    </form>
+
+    <table class="bbase">
+        <tr>
+            <th>日時</th>
+            <th>対戦相手</th>
+            <th>勝敗</th>
+            <th>得点</th>
+            <th>失点</th>
+        </tr>
+        <tr th:each="game : ${gameList}">
+            <td>
+                <a th:href="@{/events/{id}(id=${game.game.eventId})}"
+                   th:text="${#dates.format(game.date,'yyyy-MM-dd HH:mm')}"></a>
+            </td>
+            <td th:text="${game.game.getEvent().getOpponent()}"></td>
+            <td align="center" th:text="${game.result}"></td>
+            <td align="right" th:text="${game.game.getPointGot()}"></td>
+            <td align="right" th:text="${game.game.getPointLost()}"></td>
+    </table>
+
+
+    <div th:replace="common :: footer">...</div>
+</div>
 </body>
 </html>
