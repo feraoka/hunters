@@ -2,7 +2,9 @@ package com.hunterstudios.hunters.repository;
 
 import com.hunterstudios.hunters.entity.Batter;
 import com.hunterstudios.hunters.entity.Batting;
+import com.hunterstudios.hunters.entity.BattingSummary;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +31,6 @@ public interface BattingRepository {
      * @return 打撃成績のリスト
      */
     List<Batting> getBattingsByBatterId(int batterId);
+
+    List<BattingSummary> getBattingSummary(Period period);
 }

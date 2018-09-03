@@ -43,4 +43,29 @@
         WHERE battings.batter_id = #{batterId}
     </select>
 
+    <select id="getBattingSummary" resultType="BattingSummary">
+        SELECT members.id                                                                        AS memberId,
+               count(battings.id)                                                                AS daseki,
+               count(DISTINCT events.id)                                                         AS game,
+               sum(battings.dasu)                                                                AS dasu,
+               sum(battings.steal)                                                               AS steal,
+               sum(battings.hit1 + battings.hit2 + battings.hit3 + battings.homerun)             AS hit,
+               sum(battings.hit1)                                                                AS hit1,
+               sum(battings.hit2)                                                                AS hit2,
+               sum(battings.hit3)                                                                AS hit3,
+               sum(battings.homerun)                                                             AS homerun,
+               sum(battings.rbi)                                                                 AS rbi,
+               sum(battings.sout)                                                                AS sout,
+               sum(battings.fball)                                                               AS fball,
+               sum(battings.dball)                                                               AS dball,
+               sum(battings.hit1 + battings.hit2 * 2 + battings.hit3 * 3 + battings.homerun * 4) AS ruida
+        FROM events
+                 RIGHT OUTER JOIN batters ON batters.event_id = events.id
+                 RIGHT OUTER JOIN battings ON battings.batter_id = batters.id
+                 LEFT OUTER JOIN members ON batters.member_id = members.id
+        WHERE events.date &gt;= #{begin}
+          AND events.date &lt;= #{end}
+        GROUP BY members.id
+    </select>
+
 </mapper>

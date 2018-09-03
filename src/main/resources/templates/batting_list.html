@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function selectYear() {
+            location.href = document.select_year.year.value
+        }
+
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>打撃成績</h1>
+        <table class="bbase">
+            <tr>
+                <th align="left">選手</th>
+                <th align="center">試<br/>合<br/>数</th>
+                <th align="center">打<br/>席</th>
+                <th align="center">打<br/>数</th>
+                <th align="center">安<br/>打</th>
+                <th align="center">四<br/>球</th>
+                <th align="center">死<br/>球</th>
+                <th align="center">三<br/>振</th>
+                <th align="center">盗<br/>塁</th>
+                <th align="center">二<br/>塁<br/>打</th>
+                <th align="center">三<br/>塁<br/>打</th>
+                <th align="center">本<br/>塁<br/>打</th>
+                <th align="center">打<br/>点</th>
+                <th align="center">打<br/>率</th>
+                <th align="center">出<br/>塁<br/>率</th>
+                <th align="center">長<br/>打<br/>率</th>
+                <th align="center">NOI</th>
+            </tr>
+            <tr th:each="batter : ${summary}">
+                <td th:text="${batter.name}"></td>
+                <td class="number" th:text="${batter.game}"></td>
+                <td class="number" th:text="${batter.daseki}"></td>
+                <td class="number" th:text="${batter.dasu}"></td>
+                <td class="number" th:text="${batter.hit}"></td>
+                <td class="number" th:text="${batter.fball}"></td>
+                <td class="number" th:text="${batter.dball}"></td>
+                <td class="number" th:text="${batter.sout}"></td>
+                <td class="number" th:text="${batter.steal}"></td>
+                <td class="number" th:text="${batter.hit2}"></td>
+                <td class="number" th:text="${batter.hit3}"></td>
+                <td class="number" th:text="${batter.homerun}"></td>
+                <td class="number" th:text="${batter.rbi}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.average, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.obp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.slagging, 1, 3)}"></td>
+                <td class="number" th:text="${batter.noi}"></td>
+            </tr>
+        </table>
+
+        <h4>おことわり</h4>
+        <p>
+        本来出塁率は<br/>
+        出塁率＝（安打＋四死球）／（打数＋四死球＋犠飛）<br/>
+        で計算されますが、ハンターズでは分母を打席数として計算しています。この ため、犠打、打撃妨害、走塁妨害が出塁率にマイナスに作用します。
+        </p>
+    </div>
+
+    <div th:replace="common :: footer">...</div>
+</div>
+</body>
+</html>

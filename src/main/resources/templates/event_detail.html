@@ -12,7 +12,7 @@
     <div th:replace="common :: header">...</div>
     <div th:replace="common :: menu">...</div>
     <div id="content">
-        <h1>ここにたいとる</h1>
+        <h1 th:text="${event.event.type} + ' vs ' + ${event.event.opponent}">ここにたいとる</h1>
         <table class="bbase">
             <tr>
                 <td>タイプ</td>
