@@ -45,6 +45,7 @@
 
     <select id="getBattingSummary" resultType="BattingSummary">
         SELECT members.id                                                                        AS memberId,
+               members.nick_name                                                                 AS name,
                count(battings.id)                                                                AS daseki,
                count(DISTINCT events.id)                                                         AS game,
                sum(battings.dasu)                                                                AS dasu,
@@ -65,7 +66,7 @@
                  LEFT OUTER JOIN members ON batters.member_id = members.id
         WHERE events.date &gt;= #{begin}
           AND events.date &lt;= #{end}
-        GROUP BY members.id
+        GROUP BY members.id, members.nick_name
     </select>
 
 </mapper>

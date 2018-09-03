@@ -18,9 +18,6 @@ public class BattingService {
     @NonNull
     private BattingRepository battingRepository;
 
-    @NonNull
-    private MemberRepository memberRepository;
-
     public List<BattingSummary> getBattingSummary(int year) {
         Period period = DateHelper.createYearPeriod(year);
         List<BattingSummary> summary = battingRepository.getBattingSummary(period);
@@ -36,8 +33,6 @@ public class BattingService {
             // NOI
             int noi = (int)((obp + slagging / 3) * 1000);
             e.setNoi(noi);
-            Member member = memberRepository.getMember(e.getMemberId());
-            e.setName(member.getNickname());
         }
         return summary;
     }
