@@ -22,7 +22,7 @@ public class BattingController {
     private BattingService battingService;
 
     @GetMapping("/battings")
-    public String getBattingList(@RequestParam(name = "Year", required = false) Integer requestedYear, Model model) {
+    public String getBattingList(@RequestParam(name = "year", required = false) Integer requestedYear, Model model) {
         int year = requestedYear == null ? eventService.getRecentYear() : requestedYear;
         List<BattingSummary> summary = battingService.getBattingSummary(year);
         model.addAttribute("summary", summary);
