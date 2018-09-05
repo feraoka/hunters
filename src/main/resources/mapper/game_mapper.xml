@@ -23,18 +23,6 @@
                  INNER JOIN events ON games.event_id = events.id
         ORDER BY year
     </select>
-
-    <resultMap id="gameResultOrg" type="Game">
-        <result property="eventId" column="event_id"/> <!-- TODO automate mapping -->
-        <association property="event" column="event_id" javaType="Event" select="selectEvent"/>
-    </resultMap>
-
-    <select id="selectGame" resultMap="gameResultOrg">
-        SELECT *
-        FROM games
-        WHERE id = #{id}
-    </select>
-
     <select id="selectEvent" resultType="Event">
         SELECT *
         FROM events
@@ -89,4 +77,13 @@
         <result property="pointLost" column="game_point_lost"/>
         <association property="event" resultMap="eventResult"/>
     </resultMap>
+
+    <select id="getCount" resultType="Integer">
+        SELECT count(*)
+        FROM games
+                 INNER JOIN events ON games.event_id = events.id
+        WHERE events.date &gt;= #{begin}
+          AND events.date &lt;= #{end}
+          AND events.status = 2
+    </select>
 </mapper>

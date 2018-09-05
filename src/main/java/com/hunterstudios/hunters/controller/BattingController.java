@@ -1,9 +1,8 @@
 package com.hunterstudios.hunters.controller;
 
-import com.hunterstudios.hunters.entity.BattingSummary;
 import com.hunterstudios.hunters.service.BattingService;
 import com.hunterstudios.hunters.service.EventService;
-import java.util.List;
+import com.hunterstudios.hunters.view.BattingSummaryView;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,8 +23,10 @@ public class BattingController {
     @GetMapping("/battings")
     public String getBattingList(@RequestParam(name = "year", required = false) Integer requestedYear, Model model) {
         int year = requestedYear == null ? eventService.getRecentYear() : requestedYear;
-        List<BattingSummary> summary = battingService.getBattingSummary(year);
-        model.addAttribute("summary", summary);
+        BattingSummaryView summary = battingService.getBattingSummary(year);
+        model.addAttribute("summary", summary.getEffectiveSummary());
+        model.addAttribute("ineffective", summary.getIneffectiveSummary());
+        model.addAttribute("ineffectiveCount", summary.getIneffectiveSummary().size());
         return "batting_list";
     }
 }

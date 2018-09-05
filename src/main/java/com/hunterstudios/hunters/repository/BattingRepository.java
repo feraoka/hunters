@@ -4,7 +4,6 @@ import com.hunterstudios.hunters.entity.Batter;
 import com.hunterstudios.hunters.entity.Batting;
 import com.hunterstudios.hunters.entity.BattingSummary;
 import java.util.List;
-import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

@@ -12,5 +12,5 @@ public interface GameRepository {
     Integer getLastYear();
     List<String> getYearList();
     List<Game> selectByPeriod(Period period);
-    Game selectGame(int id);
+    Integer getCount(Period period);
 }
