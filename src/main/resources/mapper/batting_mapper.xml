@@ -5,44 +5,6 @@
 
 <mapper namespace="com.hunterstudios.hunters.repository.BattingRepository">
 
-    <select id="getNumInnings" resultType="Integer">
-        SELECT max(battings.inning)
-        FROM battings
-                 INNER JOIN batters ON battings.batter_id = batters.id
-        WHERE batters.event_id = #{eventId}
-    </select>
-
-    <select id="getBatterList" resultMap="batterResult">
-        SELECT batters.id        AS batter_id,
-               batters.event_id  AS batter_event_id,
-               batters.member_id AS batter_member_id,
-               batters.bOrder    AS batter_order,
-               members.id        AS member_id,
-               members.nick_name AS member_nickname
-        FROM batters
-                 INNER JOIN members ON batters.member_id = members.id
-        WHERE batters.event_id = #{eventId}
-        ORDER BY batters.bOrder
-    </select>
-    <resultMap id="memberResult" type="Member">
-        <id property="id" column="member_id"/>
-        <result property="nickname" column="member_nickname"/>
-    </resultMap>
-
-    <resultMap id="batterResult" type="Batter">
-        <id property="id" column="batter_id"/>
-        <result property="eventId" column="batter_event_id"/>
-        <result property="memberId" column="batter_member_id"/>
-        <result property="bOrder" column="batter_order"/>
-        <association property="member" resultMap="memberResult"/>
-    </resultMap>
-
-    <select id="getBattingsByBatterId" resultType="Batting">
-        SELECT *
-        FROM battings
-        WHERE battings.batter_id = #{batterId}
-    </select>
-
     <select id="getBattingSummary" resultType="BattingSummary">
         SELECT members.id                                                                        AS memberId,
                members.nick_name                                                                 AS name,
@@ -69,4 +31,28 @@
         GROUP BY members.id, members.nick_name
     </select>
 
+    <select id="getBattingSummaryOfLastNGames" resultType="BattingSummary">
+        SELECT members.id                                                                        AS memberId,
+               members.nick_name                                                                 AS name,
+               count(battings.id)                                                                AS daseki,
+               count(DISTINCT events.id)                                                         AS game,
+               sum(battings.dasu)                                                                AS dasu,
+               sum(battings.steal)                                                               AS steal,
+               sum(battings.hit1 + battings.hit2 + battings.hit3 + battings.homerun)             AS hit,
+               sum(battings.hit1)                                                                AS hit1,
+               sum(battings.hit2)                                                                AS hit2,
+               sum(battings.hit3)                                                                AS hit3,
+               sum(battings.homerun)                                                             AS homerun,
+               sum(battings.rbi)                                                                 AS rbi,
+               sum(battings.sout)                                                                AS sout,
+               sum(battings.fball)                                                               AS fball,
+               sum(battings.dball)                                                               AS dball,
+               sum(battings.hit1 + battings.hit2 * 2 + battings.hit3 * 3 + battings.homerun * 4) AS ruida
+        FROM events
+                 RIGHT OUTER JOIN batters ON batters.event_id = events.id
+                 RIGHT OUTER JOIN battings ON battings.batter_id = batters.id
+                 LEFT OUTER JOIN members ON batters.member_id = members.id
+        WHERE events.id IN (SELECT * FROM (SELECT events.id FROM events INNER JOIN games ON events.id = games.event_id ORDER BY events.date DESC LIMIT #{n}) as t)
+        GROUP BY members.id, members.nick_name
+    </select>
 </mapper>

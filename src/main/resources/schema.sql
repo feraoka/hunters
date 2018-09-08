@@ -53,7 +53,8 @@ CREATE TABLE IF NOT EXISTS events (
   expense BOOL DEFAULT 0,
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  INDEX(date, status, type)
 );
 
 CREATE TABLE IF NOT EXISTS attendees (
@@ -61,18 +62,19 @@ CREATE TABLE IF NOT EXISTS attendees (
   event_id INT UNSIGNED NOT NULL,
   member_id INT UNSIGNED NOT NULL,
   status INT UNSIGNED NOT NULL DEFAULT 0, -- 1: attend, 2: can not attend, 3: may be attend, 4: canceled
-  PRIMARY KEY(id, event_id)
+  PRIMARY KEY(id),
+  INDEX(event_id, member_id)
 );
 
 CREATE TABLE IF NOT EXISTS games (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   event_id INT UNSIGNED NOT NULL,
   result INT,
-  batFirst BOOL NOT NULL,
-  scoreA VARCHAR(255) DEFAULT NULL,
-  scoreB VARCHAR(255) DEFAULT NULL,
-  pointGot INT,
-  pointLost INT,
+  batFirst BOOL NOT NULL, -- TODO rename as bat_first
+  scoreA VARCHAR(255) DEFAULT NULL, -- TODO rename as score_a
+  scoreB VARCHAR(255) DEFAULT NULL, -- TODO rename as score_b
+  pointGot INT, -- TODO rename as point_got
+  pointLost INT, -- TODO rename as point_lost
   PRIMARY KEY(id, event_id)
 );
 
@@ -91,7 +93,8 @@ CREATE TABLE IF NOT EXISTS batters (
   member_id INT UNSIGNED NOT NULL,         -- 選手 ID
   bOrder INT UNSIGNED NOT NULL,            -- 打順
   daida INT UNSIGNED NOT NULL DEFAULT 0,   -- 代打
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  INDEX(event_id)
 );
 
 CREATE TABLE IF NOT EXISTS battings (
@@ -115,7 +118,8 @@ CREATE TABLE IF NOT EXISTS battings (
   fball INT DEFAULT 0,              -- 四球
   dball INT DEFAULT 0,              -- 死球
   note TEXT DEFAULT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  INDEX(batter_id)
 );
 
 CREATE TABLE IF NOT EXISTS helpers (

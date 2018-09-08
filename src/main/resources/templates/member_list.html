@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+<body>
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>参加ポイント</h1>
+        <table class="bbase">
+            <tr>
+                <th rowspan="3">選手</th>
+                <th rowspan="3">守備P</th>
+                <th rowspan="3">打撃P</th>
+                <th rowspan=3> 最近3試合<br>のNOI</th>
+                <th colspan=6 align=center> イベント</th>
+            </tr>
+            <tr>
+                <th th:each="event : ${members.eventList}" th:text="${#dates.format(event.date, 'yy-MM-dd')}"></th>
+            </tr>
+            <tr>
+                <th align="center" th:each="event : ${members.eventList}" th:text="${event.name}"></th>
+            </tr>
+            <tr th:each="member : ${members.memberList}">
+                <td th:text="${member.name}"></td>
+                <td class="number" th:text="${member.defensePoint}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(member.offensePoint, 1, 2)}"></td>
+                <td class="number" th:text="${member.noi}"></td>
+                <td align="center" th:each="attend : ${member.attended}" th:text="${attend} ? 'x' : ''"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:replace="common :: footer">...</div>
+</div>
+</body>
+</html>

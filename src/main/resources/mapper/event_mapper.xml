@@ -71,7 +71,7 @@
         <result property="note" column="event_note"/>
         <result property="expense" column="event_expense"/>
         <association property="game" resultMap="gameResult"/>
-        <collection property="batters" javaType="ArrayList" column="event_id" ofType="Batter" select="getBatters" />
+        <collection property="batters" javaType="ArrayList" column="event_id" ofType="Batter" select="getBatters"/>
     </resultMap>
 
     <resultMap id="gameResult" type="Game">
@@ -109,7 +109,7 @@
         <result property="memberId" column="batter_member_id"/>
         <result property="bOrder" column="batter_order"/>
         <association property="member" resultMap="memberResult"/>
-        <collection property="battings" javaType="ArrayList" column="batter_id" ofType="Batting" select="getBattings" />
+        <collection property="battings" javaType="ArrayList" column="batter_id" ofType="Batting" select="getBattings"/>
     </resultMap>
 
     <select id="getBattings" resultType="Batting">
@@ -118,4 +118,40 @@
         WHERE battings.batter_id = #{id}
         ORDER BY battings.inning, battings.number
     </select>
+
+    <select id="getLastNEvents" resultType="Event">
+        SELECT *
+        FROM events
+        WHERE events.status = 2
+          AND events.type IN ('練習', '合宿', '練習試合', 'オーシャンリーグ')
+        ORDER BY events.date DESC
+        LIMIT #{n}
+    </select>
+
+
+    <select id="getEventAttendeesInLastNEvents" resultMap="eventAttendee">
+        SELECT events.id AS event_id, events.date AS event_date, events.type AS event_type
+        FROM events
+        WHERE events.status = 2
+          AND events.type IN ('練習', '合宿', '練習試合', 'オーシャンリーグ')
+        ORDER BY events.date DESC
+        LIMIT #{n}
+    </select>
+
+    <resultMap id="eventAttendee" type="EventAttendee">
+        <id property="id" column="event_id"/>
+        <result property="type" column="event_type"/>
+        <result property="date" column="event_date"/>
+        <collection property="members" javaType="ArrayList" column="event_id" ofType="Member" select="getMembers"/>
+    </resultMap>
+
+    <select id="getMembers" resultType="Member">
+        SELECT *
+        FROM members
+                 RIGHT OUTER JOIN attendees ON attendees.member_id = members.id
+                 RIGHT OUTER JOIN events ON attendees.event_id = events.id
+        WHERE events.id = #{id}
+        AND attendees.status = 1
+    </select>
+
 </mapper>
