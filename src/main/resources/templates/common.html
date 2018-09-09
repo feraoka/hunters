@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,8 +10,16 @@
 <div id="header" th:fragment="header">
     <h1><a href="/">ハンターズ秘密基地</a></h1>
 
-    <div id="navigation">
-        <a href="/users/login">管理</a>
+    <div id="navigation" >
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/login">ログイン</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <span th:inline="text">ようこそ、[[${#httpServletRequest.remoteUser}]]さん!</span>
+                <input type="submit" value="ログアウト"/>
+            </form>
+        </div>
     </div> <!-- navigation -->
 </div> <!-- header -->
 

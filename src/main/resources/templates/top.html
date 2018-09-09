@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Top Page</title>
@@ -15,6 +16,16 @@
 
     <div id="content">
         <h1>今後の予定</h1>
+
+        <div sec:authorize="isAuthenticated()">
+            Logged user: <span sec:authentication="name">Bob</span>
+            Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+            <p>role:
+                <span sec:authorize="hasRole('ROLE_ADMIN')">Admin</span>
+                <span sec:authorize="!hasRole('ROLE_ADMIN')">Non Admin</span>
+            </p>
+        </div>
     </div> <!-- content -->
 
     <div th:replace="common :: footer">...</div>

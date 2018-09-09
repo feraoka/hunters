@@ -1,13 +1,8 @@
 CREATE TABLE IF NOT EXISTS users (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  account VARCHAR(50) NOT NULL,       -- account
-  password VARCHAR(50) BINARY NOT NULL, -- password
-  email VARCHAR(50) BINARY NOT NULL,  -- email address
-  name VARCHAR(50) NOT NULL,          -- name
-  created DATETIME DEFAULT NULL,
-  modified DATETIME DEFAULT NULL,
-  PRIMARY KEY(id),
-  UNIQUE KEY account (account)
+  account VARCHAR(16) NOT NULL,       -- account
+  password VARCHAR(128) BINARY NOT NULL, -- password
+  email VARCHAR(64) BINARY NOT NULL,  -- email address
+  PRIMARY KEY(account)
 );
 
 CREATE TABLE IF NOT EXISTS member_statuses (

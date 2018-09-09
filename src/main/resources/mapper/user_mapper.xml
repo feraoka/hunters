@@ -5,6 +5,6 @@
 
 <mapper namespace="com.hunterstudios.hunters.repository.UserRepository">
     <select id="select" resultType="com.hunterstudios.hunters.entity.User">
-        SELECT * FROM users WHERE id = #{id}
+        SELECT * FROM users WHERE account = #{account}
     </select>
 </mapper>

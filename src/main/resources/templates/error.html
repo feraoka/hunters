@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
 </head>
+
 <body>
-<h1>いけてなくてごめん</h1>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>Error</h1>
+        <div th:if="${param.reason}">
+            <div th:switch="${param.reason[0]}">
+                <p th:case="'no_permission'">権限がありません</p>
+                <p th:case="*">いけてなくてごめん</p>
+            </div>
+        </div>
+        <div th:unless="${param.reason}">
+            <p>いけてなくてごめん</p>
+        </div>
+        <p th:text="${exception}"></p>
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
 </body>
 </html>

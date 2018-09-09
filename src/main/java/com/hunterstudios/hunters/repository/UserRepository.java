@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface UserRepository {
-    User select(int id);
+    User select(String account);
 }
