@@ -1,6 +1,6 @@
 package com.hunterstudios.hunters.entity;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 public class EventAttendee {
     private int id;
     private String type;
-    private OffsetDateTime date;
+    private LocalDateTime date;
     List<Member> members;
 
     public boolean hasMember(int id) {

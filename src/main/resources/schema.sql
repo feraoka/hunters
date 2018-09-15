@@ -53,12 +53,9 @@ CREATE TABLE IF NOT EXISTS events (
 );
 
 CREATE TABLE IF NOT EXISTS attendees (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   event_id INT UNSIGNED NOT NULL,
   member_id INT UNSIGNED NOT NULL,
-  status INT UNSIGNED NOT NULL DEFAULT 0, -- 1: attend, 2: can not attend, 3: may be attend, 4: canceled
-  PRIMARY KEY(id),
-  INDEX(event_id, member_id)
+  PRIMARY KEY(event_id, member_id)
 );
 
 CREATE TABLE IF NOT EXISTS games (

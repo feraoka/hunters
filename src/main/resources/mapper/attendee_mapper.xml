@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hunterstudios.hunters.repository.AttendeeRepository">
+    <select id="getAttendees" resultType="Attendee">
+        SELECT *
+        FROM attendees
+        WHERE event_id = #{eventId}
+    </select>
+
+    <insert id="upsert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO attendees (member_id, event_id)
+        VALUES (#{memberId}, #{eventId})
+        ON DUPLICATE KEY UPDATE member_id = #{memberId}, event_id = #{eventId}
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM attendees
+        WHERE member_id = #{memberId} AND event_id = #{eventId}
+    </delete>
+</mapper>

@@ -10,7 +10,7 @@
 <div id="header" th:fragment="header">
     <h1><a href="/">ハンターズ秘密基地</a></h1>
 
-    <div id="navigation" >
+    <div id="navigation">
         <div sec:authorize="!isAuthenticated()">
             <a href="/login">ログイン</a>
         </div>
@@ -40,6 +40,14 @@
         <li><a href="http://www10.atwiki.jp/monstars2/">基地外</a></li>
         <li><a href="https://www.ocean-league.com/">オーシャンリーグ</a></li>
     </ul>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <h3> 管理メニュー </h3>
+        <ul>
+            <li><a href="/admin/events/add">イベント登録</a></li>
+            <li><a href="/admin/members">メンバー管理</a></li>
+        </ul>
+    </div>
 
 </div> <!-- vertinav -->
 

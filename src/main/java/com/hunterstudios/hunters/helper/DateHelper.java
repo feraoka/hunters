@@ -2,8 +2,11 @@ package com.hunterstudios.hunters.helper;
 
 import com.hunterstudios.hunters.repository.Period;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import org.apache.tomcat.jni.Local;
 
 public class DateHelper {
     public static Period createYearPeriod(int year) {
@@ -13,8 +16,7 @@ public class DateHelper {
         return period;
     }
 
-    public static Date toDate(OffsetDateTime offsetDateTime) {
-        Instant instant = offsetDateTime.toInstant();
-        return Date.from(instant);
+    public static Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

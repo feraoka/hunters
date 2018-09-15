@@ -28,4 +28,7 @@ public interface EventRepository {
      * @return list of events of last n events
      */
     List<EventAttendee> getEventAttendeesInLastNEvents(int n);
+
+    void insert(Event event);
+    void update(Event event);
 }

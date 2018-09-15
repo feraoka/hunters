@@ -444,6 +444,10 @@ span.word10 {
     display: inline;
 }
 
+select .block {
+    display: block;
+}
+
 .error-message {
     color: #f00;
 }

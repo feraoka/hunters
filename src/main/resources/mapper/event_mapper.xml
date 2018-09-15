@@ -151,7 +151,24 @@
                  RIGHT OUTER JOIN attendees ON attendees.member_id = members.id
                  RIGHT OUTER JOIN events ON attendees.event_id = events.id
         WHERE events.id = #{id}
-        AND attendees.status = 1
     </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO events (date, location, ground, type, opponent, status, note, expense)
+        VALUES (#{date}, #{location}, #{ground}, #{type}, #{opponent}, #{status}, #{note}, #{expense})
+    </insert>
+
+    <update id="update">
+        UPDATE events
+        SET date     = #{date},
+            location = #{location},
+            ground   = #{ground},
+            type     = #{type},
+            opponent = #{opponent},
+            status   = #{status},
+            note     = #{note},
+            expense  = #{expense}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

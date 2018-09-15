@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <div id="form">
+            <form action="#" th:action="@{/admin/events/add}" th:object="${form}" method="post">
+                <input type="hidden" th:field="${form.id}"/>
+                <table class="bbase">
+                    <tr>
+                        <th> イベントタイプ</th>
+                        <td>
+                            <div th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error-message"></div>
+                            <input type="text" size="30" th:field="*{type}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th> 部費</th>
+                        <td>
+                            <input type="checkbox" th:field="*{expense}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th> 対戦相手</th>
+                        <td>
+                            <input type="text" size="30" th:field="*{opponent}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>日時</th>
+                        <td>
+                            <div th:if="${#fields.hasErrors('dateTime')}" th:errors="*{dateTime}" class="error-message"></div>
+                            <input type="datetime-local" th:field="*{dateTime}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>場所</th>
+                        <td>
+                            <div><input type="text" size="30" th:field="*{location}"/></div>
+                            <div>グランド<input type="text" size="10" th:field="*{locationNumber}"/>面</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>メモ</th>
+                        <td>
+                            <textarea cols="30" rows="3" th:field="*{note}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>参加</th>
+                        <td>
+                            <div th:each="attendee, stat : ${form.attendees}">
+                                <select th:name="|attendees[${stat.index}]|" th:id="${attendee}">
+                                    <option th:each="member : ${members}" th:value="${member.id}" th:selected="${member.id == attendee}">
+                                        <p th:text="${member.nickname}"></p>
+                                    </option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <button type="submit">送信</button>
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

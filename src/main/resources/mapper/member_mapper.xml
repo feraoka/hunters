@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hunterstudios.hunters.repository.MemberRepository">
+
+    <select id="getMembers" resultType="Member">
+        SELECT members.id, members.nick_name, max(events.date) as d
+        FROM members
+                 INNER JOIN attendees ON members.id = attendees.member_id
+                 INNER JOIN events ON attendees.event_id = events.id
+        GROUP BY members.id, members.nick_name
+        ORDER BY d DESC
+    </select>
+</mapper>
