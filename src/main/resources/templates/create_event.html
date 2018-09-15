@@ -15,6 +15,7 @@
 
     <div id="content">
         <div id="form">
+            <!--/*@thymesVar id="form" type="com.hunterstudios.hunters.entity.EventForm"*/-->
             <form action="#" th:action="@{/admin/events/add}" th:object="${form}" method="post">
                 <input type="hidden" th:field="${form.id}"/>
                 <table class="bbase">
