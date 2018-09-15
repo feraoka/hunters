@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -55,6 +56,7 @@ public class AdminEventService {
         return form;
     }
 
+    @Transactional
     public EventForm upsertEvent(EventForm form) {
         Event event = new Event();
         event.setId(form.getId());
@@ -72,27 +74,21 @@ public class AdminEventService {
         } else {
             eventRepository.update(event);
         }
+        updateAttendees(form.getId(), form.getAttendees());
         return form;
     }
 
-    /*
-    private void upsertAtendee(int eventId, List<Integer> attendees) {
+    private void updateAttendees(int eventId, List<Integer> attendees) {
         attendeeRepository.getAttendees(eventId)
                 .stream().filter(a -> !attendees.contains(a.getMemberId()))
-                .forEach(a -> attendeeRepository.delete(a.getId()));
-
-        for (Integer a : attendees) {
-            if (a == 0) {
-                continue;
-            }
+                .forEach(attendeeRepository::delete);
+        attendees.stream().filter(a -> a != 0).forEach(a -> {
             Attendee attendee = new Attendee();
-            attendee.setEventId(eventId);
             attendee.setMemberId(a);
-            Attendee result = attendeeRepository.get(attendee);
-
-        }
+            attendee.setEventId(eventId);
+            attendeeRepository.upsert(attendee);
+        });
     }
-    */
 
     public List<Member> getMemberList() {
         Member blank = new Member();

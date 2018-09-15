@@ -441,7 +441,7 @@ span.word10 {
 /* End hide from IE-mac */
 
 #form .input {
-    display: inline;
+    display: block;
 }
 
 select .block {

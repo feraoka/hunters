@@ -10,7 +10,13 @@
         WHERE event_id = #{eventId}
     </select>
 
-    <insert id="upsert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <select id="select" resultType="Attendee">
+        SELECT *
+        FROM attendees
+        WHERE member_id = #{memberId} AND event_id = #{eventId}
+    </select>
+
+    <insert id="upsert" useGeneratedKeys="true">
         INSERT INTO attendees (member_id, event_id)
         VALUES (#{memberId}, #{eventId})
         ON DUPLICATE KEY UPDATE member_id = #{memberId}, event_id = #{eventId}

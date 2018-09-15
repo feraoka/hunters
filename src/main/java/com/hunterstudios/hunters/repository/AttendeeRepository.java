@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface AttendeeRepository {
     List<Attendee> getAttendees(int eventId);
 
+    Attendee select(Attendee attendee);
     void upsert(Attendee attendee);
-    void delete(int id);
+    void delete(Attendee attendee);
 }
