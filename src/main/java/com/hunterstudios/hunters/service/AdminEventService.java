@@ -44,11 +44,10 @@ public class AdminEventService {
             form.setLocation(event.getLocation());
             form.setLocationNumber(event.getGround());
             form.setNote(event.getNote());
-            List<Integer> attendees = attendeeRepository.getAttendees(event.getId()).stream().map(Attendee::getMemberId).collect(Collectors.toList());
-            for (int i = attendees.size(); i < DEFAULT_MEMBERS_NUM; i++) {
-                attendees.add(0);
-            }
-            form.setAttendees(attendees);
+            List<Attendee> attendees = attendeeRepository.getAttendees(event.getId());
+            Stream<Integer> attendeesId = attendeeRepository.getAttendees(event.getId()).stream().map(Attendee::getMemberId);
+            Stream<Integer> blankId = IntStream.range(attendees.size(), DEFAULT_MEMBERS_NUM).mapToObj(i -> 0);
+            form.setAttendees(Stream.concat(attendeesId, blankId).collect(Collectors.toList()));
         } else {
             List<Integer> attendees = createBlankAttendeeList(DEFAULT_MEMBERS_NUM);
             form.setAttendees(attendees);
