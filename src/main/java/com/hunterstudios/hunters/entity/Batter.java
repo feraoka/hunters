@@ -9,7 +9,7 @@ public class Batter {
     private int id;
     private int eventId;
     private int memberId;
-    private int bOrder;
+    private int batOrder;
     private Member member;
     private List<Batting> battings;
 

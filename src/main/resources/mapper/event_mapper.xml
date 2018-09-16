@@ -38,23 +38,23 @@
     </select>
 
     <select id="getGameAndBattings" resultMap="eventAllResult">
-        SELECT events.id       AS event_id,
-               events.date     AS event_date,
-               events.location AS event_location,
-               events.ground   AS event_ground,
-               events.type     AS event_type,
-               events.opponent AS event_opponent,
-               events.status   AS event_status,
-               events.note     AS event_note,
-               events.expense  AS event_expense,
-               games.id        AS game_id,
-               games.event_id  AS game_event_id,
-               games.result    AS game_result,
-               games.batFirst  AS game_bat_first,
-               games.scoreA    AS game_score_a,
-               games.scoreB    AS game_score_b,
-               games.pointGot  AS game_point_got,
-               games.pointLost AS game_point_lost
+        SELECT events.id        AS event_id,
+               events.date      AS event_date,
+               events.location  AS event_location,
+               events.ground    AS event_ground,
+               events.type      AS event_type,
+               events.opponent  AS event_opponent,
+               events.status    AS event_status,
+               events.note      AS event_note,
+               events.expense   AS event_expense,
+               games.id         AS game_id,
+               games.event_id   AS game_event_id,
+               games.result     AS game_result,
+               games.bat_first  AS game_bat_first,
+               games.score_a    AS game_score_a,
+               games.score_b    AS game_score_b,
+               games.point_got  AS game_point_got,
+               games.point_lost AS game_point_lost
         FROM events
                  LEFT OUTER JOIN games ON events.id = games.event_id
         WHERE events.id = #{id}
@@ -89,13 +89,13 @@
         SELECT batters.id        AS batter_id,
                batters.event_id  AS batter_event_id,
                batters.member_id AS batter_member_id,
-               batters.bOrder    AS batter_order,
+               batters.bat_order AS batter_order,
                members.id        AS member_id,
                members.nick_name AS member_nickname
         FROM batters
                  INNER JOIN members ON batters.member_id = members.id
         WHERE batters.event_id = #{id}
-        ORDER BY batters.bOrder
+        ORDER BY batters.bat_order
     </select>
 
     <resultMap id="memberResult" type="Member">
@@ -107,7 +107,7 @@
         <id property="id" column="batter_id"/>
         <result property="eventId" column="batter_event_id"/>
         <result property="memberId" column="batter_member_id"/>
-        <result property="bOrder" column="batter_order"/>
+        <result property="batOrder" column="batter_order"/>
         <association property="member" resultMap="memberResult"/>
         <collection property="battings" javaType="ArrayList" column="batter_id" ofType="Batting" select="getBattings"/>
     </resultMap>

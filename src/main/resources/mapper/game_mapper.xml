@@ -30,23 +30,23 @@
     </select>
 
     <select id="selectByPeriod" resultMap="gameResult">
-        SELECT games.id        AS game_id,
-               games.event_id  AS game_event_id,
-               games.result    AS game_result,
-               games.batFirst  AS game_bat_first,
-               games.scoreA    AS game_score_a,
-               games.scoreB    AS game_score_b,
-               games.pointGot  AS game_point_got,
-               games.pointLost AS game_point_lost,
-               events.id       AS event_id,
-               events.date     AS event_date,
-               events.location AS event_location,
-               events.ground   AS event_ground,
-               events.type     AS event_type,
-               events.opponent AS event_opponent,
-               events.status   AS event_status,
-               events.note     AS event_note,
-               events.expense  AS event_expense
+        SELECT games.id         AS game_id,
+               games.event_id   AS game_event_id,
+               games.result     AS game_result,
+               games.bat_first  AS game_bat_first,
+               games.score_a    AS game_score_a,
+               games.score_b    AS game_score_b,
+               games.point_got  AS game_point_got,
+               games.point_lost AS game_point_lost,
+               events.id        AS event_id,
+               events.date      AS event_date,
+               events.location  AS event_location,
+               events.ground    AS event_ground,
+               events.type      AS event_type,
+               events.opponent  AS event_opponent,
+               events.status    AS event_status,
+               events.note      AS event_note,
+               events.expense   AS event_expense
         FROM games
                  INNER JOIN events ON games.event_id = events.id
         WHERE events.date &gt;= #{begin}
