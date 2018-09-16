@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface GameRepository {
-    Game select(int id);
     Integer getLastYear();
     List<String> getYearList();
     List<Game> selectByPeriod(Period period);

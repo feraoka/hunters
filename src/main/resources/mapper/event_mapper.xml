@@ -47,7 +47,6 @@
                events.status    AS event_status,
                events.note      AS event_note,
                events.expense   AS event_expense,
-               games.id         AS game_id,
                games.event_id   AS game_event_id,
                games.result     AS game_result,
                games.bat_first  AS game_bat_first,
@@ -75,8 +74,7 @@
     </resultMap>
 
     <resultMap id="gameResult" type="Game">
-        <id property="id" column="game_id"/>
-        <result property="eventId" column="game_event_id"/>
+        <id property="eventId" column="game_event_id"/>
         <result property="result" column="game_result"/>
         <result property="batFirst" column="game_bat_first"/>
         <result property="scoreA" column="game_score_a"/>

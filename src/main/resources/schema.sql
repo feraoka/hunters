@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS attendees (
 );
 
 CREATE TABLE IF NOT EXISTS games (
-  id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
   event_id   INT UNSIGNED NOT NULL,
   result     INT,
   bat_first  BOOL         NOT NULL,
@@ -43,17 +42,8 @@ CREATE TABLE IF NOT EXISTS games (
   score_b    VARCHAR(255)          DEFAULT NULL,
   point_got  INT,
   point_lost INT,
-  PRIMARY KEY (id, event_id),
+  PRIMARY KEY (event_id),
   FOREIGN KEY (event_id) REFERENCES events (id)
-);
-
-CREATE TABLE IF NOT EXISTS scoreboards (
-  game_id INT UNSIGNED NOT NULL,
-  inning  INT UNSIGNED NOT NULL,
-  score_a INT UNSIGNED, -- omote
-  score_b INT UNSIGNED, -- ura
-  PRIMARY KEY (game_id),
-  FOREIGN KEY (game_id) REFERENCES games (id)
 );
 
 CREATE TABLE IF NOT EXISTS batters (

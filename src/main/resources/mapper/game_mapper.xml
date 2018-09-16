@@ -3,11 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hunterstudios.hunters.repository.GameRepository">
-    <select id="select" resultType="Game">
-        SELECT *
-        FROM games
-        WHERE id = #{id}
-    </select>
+
     <select id="getLastYear"
             resultType="Integer">
         SELECT YEAR(events.date)
@@ -16,6 +12,7 @@
         ORDER BY date DESC
         LIMIT 1
     </select>
+
     <select id="getYearList"
             resultType="Integer">
         SELECT DISTINCT YEAR(date) as year
@@ -30,8 +27,7 @@
     </select>
 
     <select id="selectByPeriod" resultMap="gameResult">
-        SELECT games.id         AS game_id,
-               games.event_id   AS game_event_id,
+        SELECT games.event_id   AS game_event_id,
                games.result     AS game_result,
                games.bat_first  AS game_bat_first,
                games.score_a    AS game_score_a,
@@ -67,8 +63,7 @@
         <result property="expense" column="event_expense"/>
     </resultMap>
     <resultMap id="gameResult" type="Game">
-        <id property="id" column="game_id"/>
-        <result property="eventId" column="game_event_id"/>
+        <id property="eventId" column="game_event_id"/>
         <result property="result" column="game_result"/>
         <result property="batFirst" column="game_bat_first"/>
         <result property="scoreA" column="game_score_a"/>

@@ -95,7 +95,7 @@ public class EventService {
 
     private List<List<String>> makeBatting(Event event) {
         List<Batter> batters = event.getBatters();
-        int innings = batters.stream().map(Batter::getBattings).flatMap(Collection::stream)
+        int innings = batters.stream().map(Batter::getBattings).filter(Objects::nonNull).flatMap(Collection::stream)
                 .map(Batting::getInning).max(Comparator.naturalOrder()).orElse(0);
         List<List<String>> battingTable = new ArrayList<>();
         List<String> header = new ArrayList<>();
