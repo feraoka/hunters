@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" media="all" th:href="@{/css/base_025zilla.css}"/>
@@ -71,6 +72,7 @@
                 <td>TODO</td>
             </tr>
         </table>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/admin/events/' + ${event.event.id}}">編集</a>
     </div>
     <div th:replace="common :: footer">...</div>
 </div>
