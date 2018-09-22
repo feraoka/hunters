@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" media="all" th:href="@{/css/base_025zilla.css}"/>
+    <title>Event Detail</title>
+</head>
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+    <div id="content">
+        <h1>オーダー登録</h1>
+        <form action="#" th:action="@{'/admin/games/' + ${form.eventId} + '/members'}" th:object="${form}"
+              method="post">
+            <input type="hidden" th:field="${form.eventId}"/>
+            <div th:each="attendee, stat : ${form.orderList}">
+                <div th:if="${#fields.hasErrors('orderList')}" th:errors="${form.orderList}" class="error-message"></div>
+                <select th:name="|orderList[${stat.index}]|" th:id="${attendee}">
+                    <option th:each="member : ${members}" th:value="${member.id}"
+                            th:selected="${member.id == attendee}">
+                        [[${member.nickname}]]
+                    </option>
+                </select>
+            </div>
+            <button type="submit">送信</button>
+        </form>
+    </div>
+    <div th:replace="common :: footer">...</div>
+</div>
+</body>
+</html>
