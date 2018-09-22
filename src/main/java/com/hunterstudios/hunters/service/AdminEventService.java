@@ -78,11 +78,6 @@ public class AdminEventService {
         return form;
     }
 
-    @Transactional
-    public void delete(int eventId) {
-
-    }
-
     private void updateAttendees(int eventId, List<Integer> attendees) {
         attendeeRepository.getAttendees(eventId)
                 .stream().filter(a -> !attendees.contains(a.getMemberId()))

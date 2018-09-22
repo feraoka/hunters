@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -44,7 +41,7 @@ public class AdminEventController {
      * @param model model for template
      * @return edit form template
      */
-    @PostMapping("/admin/events/edit")
+    @PostMapping("/admin/events")
     public String addEvent(@ModelAttribute("form") @Valid EventForm form,
                            BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -64,5 +61,17 @@ public class AdminEventController {
     public String getEventForm(@PathVariable(name = "id") Integer id, Model model) {
         EventForm form = adminEventService.createEventForm(id);
         return editEvent(form, model);
+    }
+
+    /**
+     * イベントを削除する（未実装）　
+     * @param id event id of event to be deleted
+     * @param model model for template
+     * @return top page (tentative)
+     */
+    @DeleteMapping("/admin/events/{id}")
+    public String deleteEvent(@PathVariable(name = "id") Integer id, Model model) {
+        System.out.println("TODO: delete: " + id);
+        return "top";
     }
 }
