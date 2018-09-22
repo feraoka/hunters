@@ -14,6 +14,9 @@
     <div th:replace="common :: menu">...</div>
 
     <div id="content">
+
+        <a th:href="@{'/admin/games/' + ${form.id} + '/members'}">打順を編集</a>
+        <a th:href="@{'/admin/games/' + ${form.id} + '/scoreboard'}">スコアを編集</a>
         <!--/*@thymesVar id="form" type="com.hunterstudios.hunters.entity.EventForm"*/-->
         <div id="form">
             <form action="#" th:action="@{/admin/events}" th:object="${form}" method="post">

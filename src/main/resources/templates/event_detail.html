@@ -69,7 +69,11 @@
             </tr>
             <tr th:if="!${event.event.game}">
                 <td>参加</td>
-                <td>TODO</td>
+                <td>
+                    <div th:each="attendee : ${event.event.attendees}">
+                        [[${attendee.nickname}]]
+                    </div>
+                </td>
             </tr>
         </table>
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/admin/events/' + ${event.event.id}}">編集</a>

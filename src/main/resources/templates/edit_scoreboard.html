@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+
+        <h1>スコア編集</h1>
+
+        <form th:action="@{'/admin/games/' + ${form.eventId} + '/scoreboard'}" method="post">
+            <input type="hidden" th:field="${form.eventId}"/>
+            <table class="bbase">
+                <tr>
+                    <th align="center"> Team</th>
+                    <th th:each="seq : ${#numbers.sequence(1, form.scoreA.size())}">
+                        [[${seq}]]
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <select th:field="${form.teamA}">
+                            <option th:each="team : ${form.teams}" th:value="${team}" th:selected="${team == form.teamA}">[[${team}]]</option>
+                        </select>
+                    </td>
+                    <td th:each="score, stat : ${form.scoreA}">
+                        <input size="2" th:field="${form.scoreA[__${stat.index}__]}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select th:field="${form.teamB}">
+                            <option th:each="team : ${form.teams}" th:value="${team}" th:selected="${team == form.teamB}">[[${team}]]</option>
+                        </select>
+                    </td>
+                    <td th:each="score, stat : ${form.scoreB}">
+                        <input size="2" th:field="${form.scoreB[__${stat.index}__]}"/>
+                    </td>
+                </tr>
+
+            </table>
+            <button type="submit">送信</button>
+        </form>
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

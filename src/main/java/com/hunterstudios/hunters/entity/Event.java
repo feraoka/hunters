@@ -18,4 +18,5 @@ public class Event {
     private boolean expense;
     private Game game;
     private List<Batter> batters;
+    private List<Member> attendees;
 }

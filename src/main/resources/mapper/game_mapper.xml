@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hunterstudios.hunters.repository.GameRepository">
 
+    <select id="getGame" resultType="Game">
+        SELECT * FROM games WHERE event_id = #{eventId}
+    </select>
+
     <select id="getLastYear"
             resultType="Integer">
         SELECT YEAR(events.date)
@@ -81,4 +85,20 @@
           AND events.date &lt;= #{end}
           AND events.status = 2
     </select>
+
+    <insert id="insert">
+        INSERT INTO games (event_id, bat_first, score_a, score_b, result, point_got, point_lost)
+        VALUES (#{eventId}, #{batFirst}, #{scoreA}, #{scoreB}, #{result}, #{pointGot}, #{pointLost})
+    </insert>
+
+    <update id="update">
+        UPDATE games
+        SET bat_first = #{batFirst},
+            score_a = #{scoreA},
+            score_b = #{scoreB},
+            result = #{result},
+            point_got = #{pointGot},
+            point_lost = #{pointLost}
+        WHERE event_id = #{eventId}
+    </update>
 </mapper>

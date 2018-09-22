@@ -38,22 +38,22 @@
     </select>
 
     <select id="getGameAndBattings" resultMap="eventAllResult">
-        SELECT events.id        AS event_id,
-               events.date      AS event_date,
-               events.location  AS event_location,
-               events.ground    AS event_ground,
-               events.type      AS event_type,
-               events.opponent  AS event_opponent,
-               events.status    AS event_status,
-               events.note      AS event_note,
-               events.expense   AS event_expense,
-               games.event_id   AS game_event_id,
-               games.result     AS game_result,
-               games.bat_first  AS game_bat_first,
-               games.score_a    AS game_score_a,
-               games.score_b    AS game_score_b,
-               games.point_got  AS game_point_got,
-               games.point_lost AS game_point_lost
+        SELECT events.id         AS event_id,
+               events.date       AS event_date,
+               events.location   AS event_location,
+               events.ground     AS event_ground,
+               events.type       AS event_type,
+               events.opponent   AS event_opponent,
+               events.status     AS event_status,
+               events.note       AS event_note,
+               events.expense    AS event_expense,
+               games.event_id    AS game_event_id,
+               games.result      AS game_result,
+               games.bat_first   AS game_bat_first,
+               games.score_a     AS game_score_a,
+               games.score_b     AS game_score_b,
+               games.point_got   AS game_point_got,
+               games.point_lost  AS game_point_lost
         FROM events
                  LEFT OUTER JOIN games ON events.id = games.event_id
         WHERE events.id = #{id}
@@ -71,6 +71,7 @@
         <result property="expense" column="event_expense"/>
         <association property="game" resultMap="gameResult"/>
         <collection property="batters" javaType="ArrayList" column="event_id" ofType="Batter" select="getBatters"/>
+        <collection property="attendees" javaType="ArrayList" column="event_id" ofType="Member" select="getAttendees"/>
     </resultMap>
 
     <resultMap id="gameResult" type="Game">
@@ -94,6 +95,13 @@
                  INNER JOIN members ON batters.member_id = members.id
         WHERE batters.event_id = #{id}
         ORDER BY batters.bat_order
+    </select>
+
+    <select id="getAttendees" resultType="Member">
+        SELECT members.id, members.nick_name
+        FROM members
+        INNER JOIN attendees ON members.id = attendees.member_id
+        WHERE attendees.event_id = #{eventId}
     </select>
 
     <resultMap id="memberResult" type="Member">
