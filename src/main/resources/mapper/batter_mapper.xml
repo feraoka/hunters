@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hunterstudios.hunters.repository.BatterRepository">
+
+    <select id="get" resultType="Batter">
+        SELECT *
+        FROM batters
+        WHERE batters.event_id = #{eventId} AND batters.member_id = #{memberId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM batters WHERE batters.id = #{eventId}
+    </delete>
+
+    <insert id="insert">
+        INSERT INTO batters (id, event_id, member_id, bat_order)
+        VALUES (#{id}, #{eventId}, #{memberId}, #{batOrder})
+    </insert>
+
+    <update id="update">
+        UPDATE batters
+        SET event_id = #{eventId},
+            member_id = #{memberId},
+            bat_order = #{batOrder}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getBatters" resultType="Batter">
+        SELECT *
+        FROM batters
+        WHERE batters.event_id = #{eventId}
+        ORDER BY batters.bat_order
+    </select>
+
+    <select id="getBatterList" resultType="Integer">
+        SELECT batters.member_id
+        FROM batters
+        WHERE batters.event_id = #{eventId}
+        ORDER BY batters.bat_order
+    </select>
+
+</mapper>

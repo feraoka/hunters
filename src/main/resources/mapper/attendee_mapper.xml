@@ -7,7 +7,14 @@
     <select id="getAttendees" resultType="Attendee">
         SELECT *
         FROM attendees
-        WHERE event_id = #{eventId}
+        WHERE attendees.event_id = #{eventId}
+    </select>
+
+    <select id="getMembers" resultType="Member">
+        SELECT members.id, members.nick_name
+        FROM attendees
+        INNER JOIN members ON attendees.member_id = members.id
+        WHERE attendees.event_id = #{eventId}
     </select>
 
     <select id="select" resultType="Attendee">
