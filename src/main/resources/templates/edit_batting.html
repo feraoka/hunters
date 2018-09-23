@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>打撃編集</h1>
+        <form th:action="@{'/admin/battings/' + ${form.uri}}" method="post">
+            <table class="bbase">
+                <tr>
+                    <th><label th:for="${form.result}">結果</label></th>
+                    <th><label th:for="${form.direction}">方向</label></th>
+                    <th><label th:for="${form.rbi}">打点</label></th>
+                    <th><label th:for="${form.point}">得点</label></th>
+                    <th><label th:for="${form.steal}">盗塁</label></th>
+                </tr>
+                <tr>
+                    <td>
+                        <select th:field="${form.result}">
+                            <option th:each="result : ${selections.resultList}" th:value="${result.value}"
+                            th:selected="${form.result == result.value}">
+                                [[${result.label}]]
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <select th:field="${form.direction}">
+                            <option th:each="direction : ${selections.directionList}" th:value="${direction.value}">
+                                [[${direction.label}]]
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <select th:field="${form.rbi}">
+                            <option th:each="rbi : ${selections.rbiList}" th:value="${rbi.value}">[[${rbi.label}]]
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input th:field="${form.point}" type="checkbox"/>
+                    </td>
+                    <td>
+                        <select th:field="${form.steal}">
+                            <option th:each="steal : ${selections.stealList}" th:value="${steal.value}">
+                                [[${steal.label}]]
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit">送信</button>
+        </form>
+
+
+        <table class="bbase">
+            <tr>
+                <th>選手</th>
+                <th th:block th:each="seq : ${#numbers.sequence(1, battings.inning)}">
+                    [[${seq}]]
+                </th>
+            </tr>
+            <tr th:each="batter, stat1 : ${battings.battings}">
+                <td th:each="batting, stat2 : ${batter}">
+                    <span th:each="bat, stat3 : ${batting}">
+                        <a th:href="@{/admin/battings/{eventId}/{order}/{inning}/{number}
+                        (eventId=${battings.eventId},order=${stat1.index + 1},inning=${stat2.index},number=${stat3.index})}">
+                            [[${bat}]]
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

@@ -6,22 +6,28 @@
 <mapper namespace="com.hunterstudios.hunters.repository.BattingRepository">
 
     <select id="getBattingSummary" resultType="BattingSummary">
-        SELECT members.id                                                                        AS memberId,
-               members.nick_name                                                                 AS name,
-               count(battings.id)                                                                AS daseki,
-               count(DISTINCT events.id)                                                         AS game,
-               sum(battings.dasu)                                                                AS dasu,
-               sum(battings.steal)                                                               AS steal,
-               sum(battings.hit1 + battings.hit2 + battings.hit3 + battings.homerun)             AS hit,
-               sum(battings.hit1)                                                                AS hit1,
-               sum(battings.hit2)                                                                AS hit2,
-               sum(battings.hit3)                                                                AS hit3,
-               sum(battings.homerun)                                                             AS homerun,
-               sum(battings.rbi)                                                                 AS rbi,
-               sum(battings.sout)                                                                AS sout,
-               sum(battings.fball)                                                               AS fball,
-               sum(battings.dball)                                                               AS dball,
-               sum(battings.hit1 + battings.hit2 * 2 + battings.hit3 * 3 + battings.homerun * 4) AS ruida
+        SELECT members.id                                                       AS memberId,
+               members.nick_name                                                AS name,
+               count(battings.id)                                               AS daseki,
+               count(DISTINCT events.id)                                        AS game,
+               sum(CASE WHEN battings.result IN (9, 10) THEN 0 ELSE 1 END)      AS dasu,
+               sum(battings.point)                                              AS point,
+               sum(battings.steal)                                              AS steal,
+               sum(CASE WHEN battings.result IN (1, 2, 3, 4) THEN 1 ELSE 0 END) AS hit,
+               sum(CASE WHEN battings.result = 1 THEN 1 ELSE 0 END)             AS hit1,
+               sum(CASE WHEN battings.result = 2 THEN 1 ELSE 0 END)             AS hit2,
+               sum(CASE WHEN battings.result = 3 THEN 1 ELSE 0 END)             AS hit3,
+               sum(CASE WHEN battings.result = 4 THEN 1 ELSE 0 END)             AS homerun,
+               sum(battings.rbi)                                                AS rbi,
+               sum(CASE WHEN battings.result = 11 THEN 1 ELSE 0 END)            AS sout,
+               sum(CASE WHEN battings.result = 9 THEN 1 ELSE 0 END)             AS fball,
+               sum(CASE WHEN battings.result = 10 THEN 1 ELSE 0 END)            AS dball,
+               sum(CASE
+                       WHEN battings.result = 1 THEN 1
+                       WHEN battings.result = 2 THEN 2
+                       WHEN battings.result = 3 THEN 3
+                       WHEN battings.result = 4 THEN 4
+                       ELSE 0 END)                                              AS ruida
         FROM events
                  RIGHT OUTER JOIN batters ON batters.event_id = events.id
                  RIGHT OUTER JOIN battings ON battings.batter_id = batters.id
@@ -32,27 +38,50 @@
     </select>
 
     <select id="getBattingSummaryOfLastNGames" resultType="BattingSummary">
-        SELECT members.id                                                                        AS memberId,
-               members.nick_name                                                                 AS name,
-               count(battings.id)                                                                AS daseki,
-               count(DISTINCT events.id)                                                         AS game,
-               sum(battings.dasu)                                                                AS dasu,
-               sum(battings.steal)                                                               AS steal,
-               sum(battings.hit1 + battings.hit2 + battings.hit3 + battings.homerun)             AS hit,
-               sum(battings.hit1)                                                                AS hit1,
-               sum(battings.hit2)                                                                AS hit2,
-               sum(battings.hit3)                                                                AS hit3,
-               sum(battings.homerun)                                                             AS homerun,
-               sum(battings.rbi)                                                                 AS rbi,
-               sum(battings.sout)                                                                AS sout,
-               sum(battings.fball)                                                               AS fball,
-               sum(battings.dball)                                                               AS dball,
-               sum(battings.hit1 + battings.hit2 * 2 + battings.hit3 * 3 + battings.homerun * 4) AS ruida
+        SELECT members.id                                                       AS memberId,
+               members.nick_name                                                AS name,
+               count(battings.id)                                               AS daseki,
+               count(DISTINCT events.id)                                        AS game,
+               sum(CASE WHEN battings.result IN (9, 10) THEN 0 ELSE 1 END)      AS dasu,
+               sum(battings.point)                                              AS point,
+               sum(battings.steal)                                              AS steal,
+               sum(CASE WHEN battings.result IN (1, 2, 3, 4) THEN 1 ELSE 0 END) AS hit,
+               sum(CASE WHEN battings.result = 1 THEN 1 ELSE 0 END)             AS hit1,
+               sum(CASE WHEN battings.result = 2 THEN 1 ELSE 0 END)             AS hit2,
+               sum(CASE WHEN battings.result = 3 THEN 1 ELSE 0 END)             AS hit3,
+               sum(CASE WHEN battings.result = 4 THEN 1 ELSE 0 END)             AS homerun,
+               sum(battings.rbi)                                                AS rbi,
+               sum(CASE WHEN battings.result = 11 THEN 1 ELSE 0 END)            AS sout,
+               sum(CASE WHEN battings.result = 9 THEN 1 ELSE 0 END)             AS fball,
+               sum(CASE WHEN battings.result = 10 THEN 1 ELSE 0 END)            AS dball,
+               sum(CASE
+                       WHEN battings.result = 1 THEN 1
+                       WHEN battings.result = 2 THEN 2
+                       WHEN battings.result = 3 THEN 3
+                       WHEN battings.result = 4 THEN 4
+                       ELSE 0 END)                                              AS ruida
         FROM events
                  RIGHT OUTER JOIN batters ON batters.event_id = events.id
                  RIGHT OUTER JOIN battings ON battings.batter_id = batters.id
                  LEFT OUTER JOIN members ON batters.member_id = members.id
-        WHERE events.id IN (SELECT * FROM (SELECT events.id FROM events INNER JOIN games ON events.id = games.event_id ORDER BY events.date DESC LIMIT #{n}) as t)
+        WHERE events.id IN (SELECT *
+                            FROM (SELECT events.id
+                                  FROM events
+                                           INNER JOIN games ON events.id = games.event_id
+                                  ORDER BY events.date DESC
+                                  LIMIT #{n}) as t)
         GROUP BY members.id, members.nick_name
     </select>
+
+    <select id="select" resultType="Batting">
+        SELECT battings.*
+        FROM battings
+                 INNER JOIN batters ON battings.batter_id = batters.id
+                 INNER JOIN events ON batters.event_id = events.id
+        WHERE events.id = #{eventId}
+          AND battings.inning = #{inning}
+          AND batters.bat_order = #{order}
+          AND battings.number = #{number}
+    </select>
+
 </mapper>

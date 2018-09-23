@@ -1,5 +1,7 @@
 package com.hunterstudios.hunters.repository;
 
+import com.hunterstudios.hunters.entity.Batting;
+import com.hunterstudios.hunters.entity.BattingSearch;
 import com.hunterstudios.hunters.entity.BattingSummary;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +24,6 @@ public interface BattingRepository {
      * @return list of battings
      */
     List<BattingSummary> getBattingSummaryOfLastNGames(int n);
+
+    Batting select(BattingSearch battingSearch);
 }

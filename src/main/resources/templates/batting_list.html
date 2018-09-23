@@ -36,6 +36,7 @@
                 <th align="center">三<br/>塁<br/>打</th>
                 <th align="center">本<br/>塁<br/>打</th>
                 <th align="center">打<br/>点</th>
+                <th align="center">得<br/>点</th>
                 <th align="center">打<br/>率</th>
                 <th align="center">出<br/>塁<br/>率</th>
                 <th align="center">長<br/>打<br/>率</th>
@@ -55,9 +56,10 @@
                 <td class="number" th:text="${batter.hit3}"></td>
                 <td class="number" th:text="${batter.homerun}"></td>
                 <td class="number" th:text="${batter.rbi}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.average, 1, 3)}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.obp, 1, 3)}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.slagging, 1, 3)}"></td>
+                <td class="number" th:text="${batter.point}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.averageHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.obpHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.slaggingHalfUp, 1, 3)}"></td>
                 <td class="number" th:text="${batter.noi}"></td>
             </tr>
 
@@ -79,9 +81,10 @@
                 <td class="number" th:text="${batter.hit3}"></td>
                 <td class="number" th:text="${batter.homerun}"></td>
                 <td class="number" th:text="${batter.rbi}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.average, 1, 3)}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.obp, 1, 3)}"></td>
-                <td class="number" th:text="${#numbers.formatDecimal(batter.slagging, 1, 3)}"></td>
+                <td class="number" th:text="${batter.point}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.averageHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.obpHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(batter.slaggingHalfUp, 1, 3)}"></td>
                 <td class="number" th:text="${batter.noi}"></td>
             </tr>
 

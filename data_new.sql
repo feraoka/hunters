@@ -6625,6 +6625,18 @@ INSERT INTO `battings` VALUES (2135,710,6,0,6,NULL,5,0,0,0,0,0,0,0,0,0,0,0,NULL,
 INSERT INTO `battings` VALUES (2136,711,6,0,11,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,1);
 INSERT INTO `battings` VALUES (2137,712,6,0,6,NULL,6,0,0,0,0,0,0,0,0,0,0,0,NULL,1);
 
+ALTER TABLE `battings` DROP `dakyu`;
+ALTER TABLE `battings` DROP `hits`;
+ALTER TABLE `battings` DROP `hit1`;
+ALTER TABLE `battings` DROP `hit2`;
+ALTER TABLE `battings` DROP `hit3`;
+ALTER TABLE `battings` DROP `homerun`;
+ALTER TABLE `battings` DROP `sout`;
+ALTER TABLE `battings` DROP `fball`;
+ALTER TABLE `battings` DROP `dball`;
+ALTER TABLE `battings` DROP `note`;
+ALTER TABLE `battings` DROP `dasu`;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

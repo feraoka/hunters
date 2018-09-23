@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/games")
 public class AdminGameController {
 
     @NonNull
@@ -22,14 +23,14 @@ public class AdminGameController {
     @NonNull
     private GameService gameService;
 
-    @GetMapping("/admin/games/{id}/members")
+    @GetMapping("{id}/members")
     public String getMemberForm(@PathVariable(name = "id") Integer id, Model model) {
         model.addAttribute("form", attendeeService.getBatterForm(id));
         model.addAttribute("members", attendeeService.getAttendeeList(id));
         return "edit_game_member";
     }
 
-    @PostMapping("/admin/games/{id}/members")
+    @PostMapping("{id}/members")
     public String updateMemberList(@PathVariable(name = "id") Integer id, @ModelAttribute("form") @Valid BatterForm form,
                                    BindingResult result, Model model) {
         model.addAttribute("members", attendeeService.getAttendeeList(id));
@@ -40,13 +41,13 @@ public class AdminGameController {
         return "edit_game_member"; // or back to edit event view
     }
 
-    @GetMapping("/admin/games/{id}/scoreboard")
+    @GetMapping("{id}/scoreboard")
     public String getScoreboardForm(@PathVariable(name = "id") Integer id, Model model) {
         model.addAttribute("form", gameService.getScoreboardForm(id));
         return "edit_scoreboard";
     }
 
-    @PostMapping("/admin/games/{id}/scoreboard")
+    @PostMapping("{id}/scoreboard")
     public String updateScorebordForm(@PathVariable(name = "id") Integer id,
                                       @ModelAttribute("form") @Valid ScoreboardForm form, Model model) {
         gameService.updateScoreboard(form);
