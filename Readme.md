@@ -1,5 +1,15 @@
 # Hunters Web App
 
+## Development
+
+### Database
+
+Install MySQL
+
+Create user _bbase_, and create database _bbase_.
+
+
+
 ## Run as a daemon on ubuntu
 
 https://dzone.com/articles/run-your-java-application-as-a-service-on-ubuntu
