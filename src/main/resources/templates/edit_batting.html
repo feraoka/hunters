@@ -15,20 +15,26 @@
 
     <div id="content">
         <h1>打撃編集</h1>
+        <p class="error-message" th:if="${error}">[[${error}]]</p>
         <form th:action="@{'/admin/battings/' + ${form.uri}}" method="post">
             <table class="bbase">
                 <tr>
+                    <th>打席</th>
                     <th><label th:for="${form.result}">結果</label></th>
                     <th><label th:for="${form.direction}">方向</label></th>
                     <th><label th:for="${form.rbi}">打点</label></th>
                     <th><label th:for="${form.point}">得点</label></th>
                     <th><label th:for="${form.steal}">盗塁</label></th>
+                    <th><label th:for="${form.delete}">削除</label></th>
                 </tr>
                 <tr>
                     <td>
+                        <div th:text="${selected.number + 1}">N</div>
+                    </td>
+                    <td>
                         <select th:field="${form.result}">
                             <option th:each="result : ${selections.resultList}" th:value="${result.value}"
-                            th:selected="${form.result == result.value}">
+                                    th:selected="${form.result == result.value}">
                                 [[${result.label}]]
                             </option>
                         </select>
@@ -56,11 +62,26 @@
                             </option>
                         </select>
                     </td>
+                    <td>
+                        <input th:field="${form.delete}" type="checkbox"/>
+                    </td>
                 </tr>
             </table>
             <button type="submit">送信</button>
         </form>
 
+        <div>
+            <a th:if="${form.prev != null}" th:href="@{/admin/battings/{eventId}/{index}
+        (eventId=${battings.eventId}, index=${form.prev})}">
+                前打席
+            </a>
+        </div>
+        <div>
+            <a th:if="${form.next != null}" th:href="@{/admin/battings/{eventId}/{index}
+        (eventId=${battings.eventId}, index=${form.next})}">
+                次打席
+            </a>
+        </div>
 
         <table class="bbase">
             <tr>
@@ -71,12 +92,18 @@
             </tr>
             <tr th:each="batter, stat1 : ${battings.battings}">
                 <td th:each="batting, stat2 : ${batter}">
-                    <span th:each="bat, stat3 : ${batting}">
-                        <a th:href="@{/admin/battings/{eventId}/{order}/{inning}/{number}
-                        (eventId=${battings.eventId},order=${stat1.index + 1},inning=${stat2.index},number=${stat3.index})}">
-                            [[${bat}]]
-                        </a>
-                    </span>
+                    <div id="selected"
+                         th:id="${selected.order == stat1.index + 1 && selected.inning == stat2.index}? 'selected' : ''">
+                        <span th:each="bat, stat3 : ${batting}">
+                            <span th:if="${stat2.index == 0}">
+                                [[${bat}]]
+                            </span>
+                            <a th:if="${stat2.index > 0}" th:href="@{/admin/battings/{eventId}/{order}/{inning}/{number}
+                            (eventId=${battings.eventId},order=${stat1.index + 1},inning=${stat2.index},number=${stat3.index})}">
+                                [[${bat}]]
+                            </a>
+                        </span>
+                    </div>
                 </td>
             </tr>
         </table>

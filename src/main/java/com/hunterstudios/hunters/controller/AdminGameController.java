@@ -23,6 +23,11 @@ public class AdminGameController {
     @NonNull
     private GameService gameService;
 
+    @GetMapping("{id}")
+    public String getGame(@PathVariable(name = "id") Integer id) {
+        return "redirect:/admin/events/" + id;
+    }
+
     @GetMapping("{id}/members")
     public String getMemberForm(@PathVariable(name = "id") Integer id, Model model) {
         model.addAttribute("form", attendeeService.getBatterForm(id));

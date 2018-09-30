@@ -10,5 +10,7 @@ public class BattingEditView {
      * order, inning, number の順に格納される
      */
     private List<List<List<String>>> battings;
+
     private int inning;
+
 }

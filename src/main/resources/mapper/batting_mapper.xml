@@ -84,4 +84,34 @@
           AND battings.number = #{number}
     </select>
 
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO battings (batter_id, inning, number, result, direction, rbi, point, steal)
+        VALUES (#{batterId}, #{inning}, #{number}, #{result}, #{direction}, #{rbi}, #{point}, #{steal})
+    </insert>
+
+    <update id="update">
+        UPDATE battings
+        SET batter_id = #{batterId},
+            inning    = #{inning},
+            number    = #{number},
+            result    = #{result},
+            direction = #{direction},
+            rbi       = #{rbi},
+            point     = #{point},
+            steal     = #{steal}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM battings WHERE id = #{id}
+    </delete>
+
+    <select id="selectByInning" resultType="Batting">
+        SELECT battings.*
+        FROM battings
+                 INNER JOIN batters ON battings.batter_id = batters.id
+                 INNER JOIN events ON batters.event_id = events.id
+        WHERE events.id = #{eventId}
+          AND battings.inning = #{inning}
+    </select>
 </mapper>

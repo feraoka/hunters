@@ -10,4 +10,7 @@ public class BattingForm {
     private int rbi;
     private boolean point;
     private int steal;
+    private boolean delete;
+    private String next;
+    private String prev;
 }

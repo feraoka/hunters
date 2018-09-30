@@ -1,12 +1,14 @@
 package com.hunterstudios.hunters.controller;
 
 import com.hunterstudios.hunters.entity.BattingForm;
+import com.hunterstudios.hunters.entity.BattingIndex;
+import com.hunterstudios.hunters.exception.InvalidDataException;
 import com.hunterstudios.hunters.service.BattingService;
-import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -30,11 +32,12 @@ public class AdminBattingController {
     public String getBattingForm(@PathVariable(name = "id") Integer eventId,
                                  @PathVariable(name = "order") Integer order,
                                  @PathVariable(name = "inning") Integer inning,
-                                 @PathVariable(name = "number", required = false) Integer number,
+                                 @PathVariable(name = "number") Integer number,
                                  Model model) {
-        int n = number == null ? 0 : number;
+        BattingIndex index = new BattingIndex(order, inning, number);
         model.addAttribute("battings", battingService.getBattingView(eventId));
-        model.addAttribute("form", battingService.getBattingForm(eventId, order, inning, n));
+        model.addAttribute("selected", index);
+        model.addAttribute("form", battingService.getBattingForm(eventId, index));
         model.addAttribute("selections", battingService.getSelections());
         return "edit_batting";
     }
@@ -43,11 +46,26 @@ public class AdminBattingController {
     public String updateBatting(@PathVariable(name = "id") Integer eventId,
                                 @PathVariable(name = "order") Integer order,
                                 @PathVariable(name = "inning") Integer inning,
-                                @PathVariable(name = "number", required = false) Integer number,
-                                @ModelAttribute("form") @Valid BattingForm form,
+                                @PathVariable(name = "number") Integer number,
+                                @ModelAttribute("form") BattingForm form, BindingResult result,
                                 Model model) {
-        int n = number == null ? 0 : number;
-        //battingService.updateBatting(eventId, order, inning, n, form);
-        return "redirect:/admin/battings/{id}/{order}/{inning}/{number}";
+        BattingIndex index = new BattingIndex(order, inning, number);
+        try {
+            if (form.isDelete()) {
+                battingService.deleteBatting(eventId, index);
+            } else {
+                battingService.updateBatting(eventId, index, form);
+            }
+        } catch (InvalidDataException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("battings", battingService.getBattingView(eventId));
+            model.addAttribute("selected", index);
+            model.addAttribute("form", battingService.getBattingForm(eventId, index));
+            model.addAttribute("selections", battingService.getSelections());
+            return "edit_batting";
+        }
+        String uri = battingService.getNextUri(eventId, index);
+        return "redirect:/admin/battings/" + uri;
     }
+
 }

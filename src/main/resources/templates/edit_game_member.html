@@ -27,6 +27,8 @@
             </div>
             <button type="submit">送信</button>
         </form>
+
+        <a th:href="@{'/admin/battings/' + ${form.eventId} + '/1/1/0'}">打撃編集</a>
     </div>
     <div th:replace="common :: footer">...</div>
 </div>

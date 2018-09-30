@@ -26,4 +26,8 @@ public interface BattingRepository {
     List<BattingSummary> getBattingSummaryOfLastNGames(int n);
 
     Batting select(BattingSearch battingSearch);
+    void insert(Batting batting);
+    void update(Batting batting);
+    void delete(int id);
+    List<Batting> selectByInning(BattingSearch battingSearch);
 }

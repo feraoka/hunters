@@ -64,34 +64,57 @@ public class BattingService {
         return new BattingSelections();
     }
 
-    public BattingForm getBattingForm(int eventId, int order, int inning, int number) {
+    public BattingForm getBattingForm(int eventId, BattingIndex index) {
         BattingForm form = new BattingForm();
-        Batting batting = selectBatting(eventId, order, inning, number);
+        form.setUri(String.format("%d/%s", eventId, index.toUri()));
+        Batting batting = selectBatting(eventId, index);
         if (batting != null) {
             form.setResult(batting.getResult());
             form.setDirection(batting.getDirection());
             form.setRbi(batting.getRbi());
             form.setPoint(batting.getPoint() > 0);
             form.setSteal(batting.getSteal());
+            form.setNext(getNextBattingUri(index));
         }
+        form.setPrev(getPrevBattingUri(index));
         return form;
     }
-/*
-    public void updateBatting(int eventId, int order, int inning, int number, BattingForm form) {
-        Batting batting = selectBatting(eventId, order, inning, number);
+
+    private String getNextBattingUri(BattingIndex index) {
+        BattingIndex next = new BattingIndex(index);
+        next.setNumber(next.getNumber() + 1);
+        return next.toUri();
+    }
+
+    private String getPrevBattingUri(BattingIndex index) {
+        if (index.getNumber() == 0) {
+            return null;
+        }
+        BattingIndex next = new BattingIndex(index);
+        next.setNumber(next.getNumber() - 1);
+        return next.toUri();
+    }
+
+    public void updateBatting(int eventId, BattingIndex index, BattingForm form) {
+        Batting batting = selectBatting(eventId, index);
         if (batting == null) {
             batting = new Batting();
-            batting.setBatterId(getBatterId(eventId, order));
-            batting.setInning(inning);
-            batting.setNumber(number);
-            batting.setResult(form.getResult());
-            batting.setDirection(form.getDirection());
-            batting.setRbi(form.getRbi());
-            batting.setPoint(form.isPoint() ? 1 : 0);
-            batting.updateResult();
         }
-        batting.setBatterId();
-    }*/
+        batting.setBatterId(getBatterId(eventId, index.getOrder()));
+        batting.setInning(index.getInning());
+        batting.setNumber(index.getNumber());
+        batting.setResult(form.getResult());
+        batting.setDirection(form.getDirection());
+        batting.setRbi(form.getRbi());
+        batting.setPoint(form.isPoint() ? 1 : 0);
+        batting.validate();
+
+        if (batting.getId() == 0) {
+            battingRepository.insert(batting);
+        } else {
+            battingRepository.update(batting);
+        }
+    }
 
     private int getBatterId(int eventId, int order) {
         BatterSearch search = new BatterSearch(eventId, order);
@@ -99,12 +122,12 @@ public class BattingService {
         return batter.getId();
     }
 
-    private Batting selectBatting(int eventId, int order, int inning, int number) {
+    private Batting selectBatting(int eventId, BattingIndex index) {
         BattingSearch searchKey = new BattingSearch();
         searchKey.setEventId(eventId);
-        searchKey.setInning(inning);
-        searchKey.setOrder(order);
-        searchKey.setNumber(number);
+        searchKey.setInning(index.getInning());
+        searchKey.setOrder(index.getOrder());
+        searchKey.setNumber(index.getNumber());
         return battingRepository.select(searchKey);
     }
 
@@ -116,6 +139,7 @@ public class BattingService {
     public BattingEditView getBattingView(int eventId) {
         List<Batter> batters = batterRepository.getBatters(eventId);
         int lastInning = batters.stream().map(Batter::getBattings).flatMap(List::stream).mapToInt(Batting::getInning).max().orElse(0);
+        lastInning = Integer.max(lastInning + 1, 7);
         List<List<List<String>>> all = new ArrayList<>();
         for (Batter batter : batters) {
             List<List<String>> row = new ArrayList<>();
@@ -126,6 +150,9 @@ public class BattingService {
                 final int inning = i + 1;
                 List<String> cell = batter.getBattings().stream().filter(b -> b.getInning() == inning)
                         .map(Batting::toString).collect(Collectors.toList());
+                if (cell.isEmpty()) {
+                    cell.add("___");
+                }
                 row.add(cell);
             }
             all.add(row);
@@ -135,5 +162,35 @@ public class BattingService {
         view.setBattings(all);
         view.setInning(lastInning);
         return view;
+    }
+
+    public void deleteBatting(int eventId, BattingIndex index) {
+        Batting batting = selectBatting(eventId, index);
+        if (batting == null) {
+            return;
+        }
+        battingRepository.delete(batting.getId());
+    }
+
+    public String getNextUri(int eventId, BattingIndex index) {
+        List<Batter> batters = batterRepository.getBatters(eventId);
+        if (batters != null) {
+            int numBatters = batters.size();
+            int next = (index.getOrder() % numBatters) + 1;
+            index.setOrder(next);
+            BattingSearch search = new BattingSearch();
+            search.setEventId(eventId);
+            search.setInning(index.getInning());
+            List<Batting> battings = battingRepository.selectByInning(search);
+            int numOuts = getNumOuts(battings);
+            if (numOuts >= 3) {
+                index.setInning(index.getInning() + 1);
+            }
+        }
+        return String.format("%d/%s", eventId, index.toUri());
+    }
+
+    private int getNumOuts(List<Batting> battings) {
+        return (int)battings.stream().filter(Batting::isOut).count();
     }
 }

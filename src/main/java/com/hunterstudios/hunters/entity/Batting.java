@@ -1,5 +1,6 @@
 package com.hunterstudios.hunters.entity;
 
+import com.hunterstudios.hunters.exception.InvalidDataException;
 import lombok.Data;
 
 @Data
@@ -60,5 +61,59 @@ public class Batting {
             builder.append("s");
         }
         return builder.toString();
+    }
+
+    public void validate() {
+        if (batterId == 0) {
+            throw new InvalidDataException("no butter id set");
+        }
+        if (inning == 0) {
+            throw new InvalidDataException("no inning set");
+        }
+        switch (result) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 13:
+                if (direction == 0) {
+                    throw new InvalidDataException("set direction");
+                }
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 14:
+                break;
+            default:
+                throw new InvalidDataException("unsupported result: " + result);
+        }
+        if (rbi < 0 || rbi > 4) {
+            throw new InvalidDataException("invalid rbi: " + rbi);
+        }
+        if (point < 0 || point > 1) {
+            throw new InvalidDataException("invalid point: " + point);
+        }
+        if (steal < 0 || steal > 3) {
+            throw new InvalidDataException("invalid steal: " + steal);
+        }
+    }
+
+    public boolean isOut() {
+        switch (result) {
+            case 5:
+            case 7:
+            case 11:
+            case 13:
+            case 14:
+                return true;
+            default:
+                return false;
+        }
     }
 }
