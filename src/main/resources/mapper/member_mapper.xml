@@ -5,7 +5,7 @@
 
 <mapper namespace="com.hunterstudios.hunters.repository.MemberRepository">
 
-    <select id="getMembers" resultType="Member">
+    <select id="getMembersSortByRecentActivity" resultType="Member">
         SELECT members.id, members.nick_name, max(events.date) as d
         FROM members
                  INNER JOIN attendees ON members.id = attendees.member_id
@@ -13,4 +13,17 @@
         GROUP BY members.id, members.nick_name
         ORDER BY d DESC
     </select>
+
+    <select id="getMembers" resultType="Member">
+        SELECT * FROM members ORDER BY members.id
+    </select>
+
+    <select id="findByNickname" resultType="Member">
+        SELECT * FROM members WHERE members.nick_name = #{nickname}
+    </select>
+
+    <insert id="add" useGeneratedKeys="true">
+        INSERT INTO members (nick_name, status)
+        VALUES (#{nickname}, #{status})
+    </insert>
 </mapper>

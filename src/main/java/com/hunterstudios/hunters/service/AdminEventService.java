@@ -96,7 +96,7 @@ public class AdminEventService {
         blank.setNickname("");
         List<Member> na = new ArrayList<>();
         na.add(blank);
-        List<Member> members = memberRepository.getMembers();
+        List<Member> members = memberRepository.getMembersSortByRecentActivity();
         return Stream.concat(na.stream(), members.stream()).collect(Collectors.toList());
     }
 

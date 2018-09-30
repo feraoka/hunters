@@ -3,8 +3,10 @@ package com.hunterstudios.hunters.service;
 import com.hunterstudios.hunters.entity.BattingSummary;
 import com.hunterstudios.hunters.entity.EventAttendee;
 import com.hunterstudios.hunters.entity.Member;
+import com.hunterstudios.hunters.entity.MemberForm;
 import com.hunterstudios.hunters.helper.DateHelper;
 import com.hunterstudios.hunters.repository.EventRepository;
+import com.hunterstudios.hunters.repository.MemberRepository;
 import com.hunterstudios.hunters.view.MemberPointView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,9 @@ public class MemberService {
 
     @NonNull
     private BattingService battingService;
+
+    @NonNull
+    private MemberRepository memberRepository;
 
     public MemberPointView getMembersInLastNEvents(int n) {
         MemberPointView view = new MemberPointView();
@@ -97,5 +102,16 @@ public class MemberService {
             }
         }
         return map;
+    }
+
+    public List<Member> getMemberList() {
+        return memberRepository.getMembers();
+    }
+
+    public void addMember(MemberForm form) {
+        Member member = new Member();
+        member.setNickname(form.getNickname());
+        member.setStatus(form.getStatus());
+        memberRepository.add(member);
     }
 }

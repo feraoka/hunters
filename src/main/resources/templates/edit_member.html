@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+
+        <h1>メンバー管理</h1>
+
+        <h2>新規メンバー追加</h2>
+        <form th:action="@{/admin/members}" th:object="${form}" th:method="post">
+            <div th:if="${#fields.hasErrors('nickname')}" th:errors="${form.nickname}" class="error-message"></div>
+            <label th:for="nickname">名前</label>
+            <input type="text" size="30" th:field="*{nickname}" th:id="nickname"/>
+            <label th:for="status">スターテス</label>
+            <select th:field="*{status}" th:id="status">
+                <option value="1" selected>現役</option>
+                <option value="2">助っ人</option>
+            </select>
+            <button type="submit">追加</button>
+        </form>
+
+        <h2>メンバーリスト</h2>
+        <table class="bbase">
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>ステータス</th>
+            </tr>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.nickname}"></td>
+                <td th:text="${member.status}"></td>
+            </tr>
+        </table>
+
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>
