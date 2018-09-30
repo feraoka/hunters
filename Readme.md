@@ -31,3 +31,11 @@ WantedBy=multi-user.target
 #!/bin/sh
 sudo /usr/bin/java -jar -Dserver.port=80 /home/monstars0/hunters-0.0.1-SNAPSHOT.jar 
 ```
+
+## Deployment
+
+```
+mvn clean package
+scp target/hunters-0.0.1-SNAPSHOT.jar monstars0@hunters.lisfactory.com:~/.
+ssh monstars0@hunters.lisfactory.com sudo systemctl restart hunters
+```
