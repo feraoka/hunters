@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>ぶひぶひ</h1>
+
+        <table class="bbase">
+            <tr>
+                <th>名前</th>
+                <th>試合参加数</th>
+                <th>練習参加数</th>
+            </tr>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.name}"></td>
+                <td class="number" th:text="${member.numGames}"></td>
+                <td class="number" th:text="${member.numPractices}"></td>
+            </tr>
+        </table>
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

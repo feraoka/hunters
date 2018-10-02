@@ -1,0 +1,1 @@
+ssh mysqldump -u bbase -pdaisuke1 bbase --skip-opt --default-character-set=utf8 > dump.sql

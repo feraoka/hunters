@@ -1,12 +1,10 @@
 package com.hunterstudios.hunters.service;
 
-import com.hunterstudios.hunters.entity.BattingSummary;
-import com.hunterstudios.hunters.entity.EventAttendee;
-import com.hunterstudios.hunters.entity.Member;
-import com.hunterstudios.hunters.entity.MemberForm;
+import com.hunterstudios.hunters.entity.*;
 import com.hunterstudios.hunters.helper.DateHelper;
 import com.hunterstudios.hunters.repository.EventRepository;
 import com.hunterstudios.hunters.repository.MemberRepository;
+import com.hunterstudios.hunters.repository.Period;
 import com.hunterstudios.hunters.view.MemberPointView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,5 +111,10 @@ public class MemberService {
         member.setNickname(form.getNickname());
         member.setStatus(form.getStatus());
         memberRepository.add(member);
+    }
+
+    public List<MemberAttendance> getMemberAttendance(int year) {
+        Period period = DateHelper.createYearPeriod(year);
+        return memberRepository.getMemberAttendance(period);
     }
 }

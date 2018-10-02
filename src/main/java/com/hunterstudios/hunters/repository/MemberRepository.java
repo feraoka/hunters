@@ -1,6 +1,7 @@
 package com.hunterstudios.hunters.repository;
 
 import com.hunterstudios.hunters.entity.Member;
+import com.hunterstudios.hunters.entity.MemberAttendance;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -33,4 +34,11 @@ public interface MemberRepository {
      * @param member member to be added
      */
     void add(Member member);
+
+    /**
+     * get member attendance of the period
+     * @param period to query
+     * @return list of members who attende activities in the period
+     */
+    List<MemberAttendance> getMemberAttendance(Period period);
 }

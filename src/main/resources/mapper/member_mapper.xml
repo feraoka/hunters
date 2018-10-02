@@ -15,15 +15,32 @@
     </select>
 
     <select id="getMembers" resultType="Member">
-        SELECT * FROM members ORDER BY members.id
+        SELECT *
+        FROM members
+        ORDER BY members.id
     </select>
 
     <select id="findByNickname" resultType="Member">
-        SELECT * FROM members WHERE members.nick_name = #{nickname}
+        SELECT *
+        FROM members
+        WHERE members.nick_name = #{nickname}
     </select>
 
     <insert id="add" useGeneratedKeys="true">
         INSERT INTO members (nick_name, status)
         VALUES (#{nickname}, #{status})
     </insert>
+
+    <select id="getMemberAttendance" resultType="MemberAttendance">
+        SELECT members.nick_name AS name,
+        count(events.id) AS numAttendees,
+        sum(CASE WHEN events.type = 'オーシャンリーグ' OR events.type = '練習試合' THEN 1 ELSE 0 END) AS numGames,
+        sum(CASE WHEN events.type = '練習' OR events.type = '合宿' THEN 1 ELSE 0 END) AS numPractices
+        FROM members
+        INNER JOIN attendees ON members.id = attendees.member_id
+        INNER JOIN events ON attendees.event_id = events.id
+        WHERE events.date &gt;= #{begin} AND events.date &lt;= #{end} AND members.status = 1
+        GROUP BY members.id
+        ORDER BY numAttendees DESC
+    </select>
 </mapper>
