@@ -1,14 +1,15 @@
 # Hunters Web App
 
+草野球チームハンターズ専用ウェブサービスです。
+対戦成績や打撃成績、チーム運営に必要な情報を閲覧することができます。
+
 ## Development
 
 ### Database
 
 Install MySQL
 
-Create user _bbase_, and create database _bbase_.
-
-
+Create user _bbase_, and database _bbase_.
 
 ## Run as a daemon on ubuntu
 
