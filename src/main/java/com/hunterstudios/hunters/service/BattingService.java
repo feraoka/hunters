@@ -40,7 +40,7 @@ public class BattingService {
             e.calculate();
         }
         summary.sort(map.get("average").thenComparing(BattingSummary::getMemberId));
-        int requiredNumGames = gameRepository.getCount(period) / 2;
+        int requiredNumGames = (gameRepository.getCount(period) + 1) / 2;
         BattingSummaryView view = new BattingSummaryView();
         view.setEffectiveSummary(summary.stream().filter(e -> e.getGame() >= requiredNumGames)
                 .collect(Collectors.toList()));

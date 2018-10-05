@@ -10,7 +10,6 @@
         function selectYear() {
             location.href = document.select_year.year.value
         }
-
         /*]]>*/
     </script>
 </head>
@@ -21,6 +20,15 @@
 
     <div id="content">
         <h1>打撃成績</h1>
+
+        <form name="select_year" method="post" OnChange="selectYear()">
+            <select title="year" name="year" id="year">
+                <option th:each="y : ${yearList}" th:value="'/battings?year=' + ${y}" th:selected="${y} == ${year}">
+                    [[${y}]]
+                </option>
+            </select>
+        </form>
+
         <table class="bbase">
             <tr>
                 <th align="left">選手</th>
@@ -64,7 +72,7 @@
             </tr>
 
             <tr th:if="${ineffectiveCount}">
-                <td colspan=17 align="center"> 規程試合数未満</td>
+                <td colspan=17 align="center"> 規定試合数未満</td>
             </tr>
 
             <tr th:if="${ineffectiveCount}" th:each="batter : ${ineffective}">
@@ -91,11 +99,22 @@
         </table>
 
         <h4>おことわり</h4>
-        <p>
-            本来出塁率は<br/>
-            出塁率＝（安打＋四死球）／（打数＋四死球＋犠飛）<br/>
-            で計算されますが、ハンターズでは分母を打席数として計算しています。この ため、犠打、打撃妨害、走塁妨害が出塁率にマイナスに作用します。
-        </p>
+        <dl>
+            <dt>出塁率</dt>
+            <dd>
+                本来出塁率は<br/>
+                <i>出塁率 ＝（安打＋四死球）／（打数＋四死球＋犠飛）</i><br/>
+                で計算されますが、ハンターズでは分母を打席数で計算しています。
+                このため、犠打、打撃妨害、走塁妨害が出塁率にマイナスに作用します。
+            </dd>
+        </dl>
+        <dl>
+            <dt>規定試合数</dt>
+            <dd>
+                指定した期間に開催された全試合の半数以上に出場する必要があります。
+                例えば、シーズン7試合実施した場合、4試合参加が条件になります。
+            </dd>
+        </dl>
     </div>
 
     <div th:replace="common :: footer">...</div>
