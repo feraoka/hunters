@@ -1,7 +1,6 @@
 package com.hunterstudios.hunters.controller;
 
 import com.hunterstudios.hunters.service.GameService;
-import com.hunterstudios.hunters.view.GameView;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
