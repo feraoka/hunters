@@ -17,9 +17,9 @@
             Invalid username and password.
         </div>
 
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name: <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
+        <form th:action="@{/login}" method="post" class="login">
+            <div><label for="username"> User Name:</label><input type="text" name="username" id="username"/></div>
+            <div><label for="password"> Password: </label><input type="password" name="password" id="password"/></div>
             <div><input type="submit" value="Sign In"/></div>
         </form>
 

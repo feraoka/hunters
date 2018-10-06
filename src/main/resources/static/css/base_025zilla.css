@@ -474,3 +474,15 @@ td.number {
     font-size: 12px;
     font-weight: normal;
 }
+
+form.login label {
+    margin-top: 4px;
+    display: block;
+    font-size: 0.8em;
+}
+form.login input {
+    margin-left: 10px;
+}
+form.login input[type="submit"] {
+    margin-top: 10px;
+}
