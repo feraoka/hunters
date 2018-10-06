@@ -6,9 +6,13 @@ Hunters Web is a web service for the base
 
 ### Database
 
-Install MySQL
+Install MySQL, and create user _bbase_ and database _bbase_.
+See application.properties for MySQL user settings.
+After initially running app, there will be tables in the database.
+If you need production data, the latest data whose name is data.sql can be found at hunters-data repository.
+https://github.com/feraoka/hunters-data
 
-Create user _bbase_, and database _bbase_.
+We use flyway for migrations, please be aware of it when you need to modify database.
 
 ## Run as a daemon on ubuntu
 
@@ -44,8 +48,4 @@ sudo /usr/bin/java -jar -Dserver.port=80 /home/monstars0/hunters-0.0.1-SNAPSHOT.
 
 ## Deployment
 
-```
-mvn clean package
-scp target/hunters-0.0.1-SNAPSHOT.jar monstars0@hunters.lisfactory.com:~/.
-ssh monstars0@hunters.lisfactory.com sudo systemctl restart hunters
-```
+use _deploy.sh_ script in the repository.
