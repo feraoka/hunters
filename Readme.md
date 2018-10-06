@@ -1,7 +1,6 @@
 # Hunters Web App
 
-草野球チームハンターズ専用ウェブサービスです。
-対戦成績や打撃成績、チーム運営に必要な情報を閲覧することができます。
+Hunters Web is a web service for the base
 
 ## Development
 

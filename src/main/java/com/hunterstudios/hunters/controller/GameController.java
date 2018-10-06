@@ -23,8 +23,8 @@ public class GameController {
         model.addAttribute("yearList", yearList);
         int year = requestedYear == null ? gameService.getRecentYear() : requestedYear;
         model.addAttribute("year", year);
-        List<GameView> gameList = gameService.getGameList(year);
-        model.addAttribute("gameList", gameList);
+
+        model.addAttribute("summary", gameService.getSummary(year));
         return "game_list";
     }
 }

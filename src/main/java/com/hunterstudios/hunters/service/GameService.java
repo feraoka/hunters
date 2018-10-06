@@ -5,6 +5,7 @@ import com.hunterstudios.hunters.entity.ScoreboardForm;
 import com.hunterstudios.hunters.helper.DateHelper;
 import com.hunterstudios.hunters.repository.GameRepository;
 import com.hunterstudios.hunters.repository.Period;
+import com.hunterstudios.hunters.view.GameSummaryView;
 import com.hunterstudios.hunters.view.GameView;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -30,10 +31,16 @@ public class GameService {
         add("対戦相手");
     }});
 
-    public List<GameView> getGameList(int year) {
+    public GameSummaryView getSummary(int year) {
+        GameSummaryView view = new GameSummaryView();
         Period period = DateHelper.createYearPeriod(year);
         List<Game> gameList = gameRepository.selectByPeriod(period);
-        return gameList.stream().map(GameView::new).collect(Collectors.toList());
+        view.setNumGames(gameList.size());
+        view.setNumWons((int)gameList.stream().filter(g -> g.getResult() > 0).count());
+        view.setNumLosts((int)gameList.stream().filter(g -> g.getResult() < 0).count());
+        view.setNumDrews((int)gameList.stream().filter(g -> g.getResult() == 0).count());
+        view.setGames(gameList.stream().map(GameView::new).collect(Collectors.toList()));
+        return view;
     }
 
     public int getRecentYear() {

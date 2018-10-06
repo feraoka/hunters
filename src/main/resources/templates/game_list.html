@@ -10,7 +10,6 @@
         function selectYear() {
             location.href = document.select_year.year.value
         }
-
         /*]]>*/
     </script>
 </head>
@@ -19,7 +18,7 @@
     <div th:replace="common :: header">...</div>
     <div th:replace="common :: menu">...</div>
     <div id="content">
-        <h1>対戦結果</h1>
+        <h1>対戦成績</h1>
         <form name="select_year" method="post" OnChange="selectYear()">
             <select title="year" name="year" id="year">
                 <option th:each="y : ${yearList}" th:value="'/games?year=' + ${y}" th:selected="${y} == ${year}">
@@ -27,6 +26,13 @@
                 </option>
             </select>
         </form>
+
+        <p>
+        [[${summary.numGames}]] 戦
+        <span th:if="${summary.numWons > 0}" th:text="${summary.numWons} + '勝'"></span>
+        <span th:if="${summary.numLosts > 0}" th:text="${summary.numLosts} + '敗'"></span>
+        <span th:if="${summary.numDrews > 0}" th:text="${summary.numDrews} + '分'"></span>
+        </p>
 
         <table class="bbase">
             <tr>
@@ -36,7 +42,7 @@
                 <th>得点</th>
                 <th>失点</th>
             </tr>
-            <tr th:each="game : ${gameList}">
+            <tr th:each="game : ${summary.games}">
                 <td>
                     <a th:href="@{/events/{id}(id=${game.game.eventId})}"
                        th:text="${#dates.format(game.date,'yyyy-MM-dd HH:mm')}"></a>
