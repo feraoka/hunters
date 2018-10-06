@@ -1,18 +1,18 @@
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   account  VARCHAR(16)         NOT NULL, -- account
   password VARCHAR(128) BINARY NOT NULL, -- password
   email    VARCHAR(64) BINARY  NOT NULL, -- email address
   PRIMARY KEY (account)
 );
 
-CREATE TABLE IF NOT EXISTS members (
+CREATE TABLE members (
   id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
   nick_name VARCHAR(50)  NOT NULL,
   status    INT UNSIGNED NOT NULL DEFAULT 0, -- 0: normal, 1: helper
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS events (
+CREATE TABLE events (
   id       INT UNSIGNED NOT NULL AUTO_INCREMENT,
   date     DATETIME     NOT NULL,
   location VARCHAR(50)  NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS events (
   INDEX (opponent, status)
 );
 
-CREATE TABLE IF NOT EXISTS attendees (
+CREATE TABLE attendees (
   event_id  INT UNSIGNED NOT NULL,
   member_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (event_id, member_id),
@@ -35,19 +35,19 @@ CREATE TABLE IF NOT EXISTS attendees (
   FOREIGN KEY (member_id) REFERENCES members (id)
 );
 
-CREATE TABLE IF NOT EXISTS games (
+CREATE TABLE games (
   event_id   INT UNSIGNED NOT NULL,
-  result     INT,
   bat_first  BOOL         NOT NULL,
   score_a    VARCHAR(255)          DEFAULT NULL,
   score_b    VARCHAR(255)          DEFAULT NULL,
+  result     INT,
   point_got  INT,
   point_lost INT,
   PRIMARY KEY (event_id),
   FOREIGN KEY (event_id) REFERENCES events (id)
 );
 
-CREATE TABLE IF NOT EXISTS batters (
+CREATE TABLE batters (
   id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
   event_id  INT UNSIGNED NOT NULL, -- イベント ID
   member_id INT UNSIGNED NOT NULL, -- 選手 ID
@@ -59,27 +59,16 @@ CREATE TABLE IF NOT EXISTS batters (
   FOREIGN KEY (member_id) REFERENCES members (id)
 );
 
-CREATE TABLE IF NOT EXISTS battings (
+CREATE TABLE battings (
   id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
   batter_id INT UNSIGNED NOT NULL,
   inning    INT UNSIGNED NOT NULL, -- イニング
   number    INT UNSIGNED NOT NULL, -- 打席番号
   result    INT UNSIGNED NOT NULL, -- 結果 定義はbattings_controller
-  dasu      INT UNSIGNED NOT NULL, -- 打数 0:四死球、犠打など 1:打数としてカウント
-  dakyu     INT UNSIGNED, -- 打球 0:ゴロ 1:フライ 2:ライナー 3:オーバー
   direction INT UNSIGNED, -- 打球方向
   rbi       INT                   DEFAULT 0, -- 打点
   point     INT                   DEFAULT 0, -- 得点
   steal     INT                   DEFAULT 0, -- 盗塁
-  hits      INT                   DEFAULT 0, -- 塁打
-  hit1      INT                   DEFAULT 0, -- 単打
-  hit2      INT                   DEFAULT 0, -- 二塁打
-  hit3      INT                   DEFAULT 0, -- 三塁打
-  homerun   INT                   DEFAULT 0, -- 本塁打
-  sout      INT                   DEFAULT 0, -- 三振
-  fball     INT                   DEFAULT 0, -- 四球
-  dball     INT                   DEFAULT 0, -- 死球
-  note      TEXT                  DEFAULT NULL,
   PRIMARY KEY (id),
   INDEX (batter_id),
   FOREIGN KEY (batter_id) REFERENCES batters (id)
