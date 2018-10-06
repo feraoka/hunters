@@ -2,31 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Game List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        function selectYear() {
-            location.href = document.select_year.year.value
-        }
-
-        /*]]>*/
-    </script>
 </head>
+
 <body>
+
 <div id="container">
     <div th:replace="common :: header">...</div>
     <div th:replace="common :: menu">...</div>
+
     <div id="content">
-        <h1>シーズン成績</h1>
-        <form name="select_year" method="post" OnChange="selectYear()">
-            <select title="year" name="year" id="year">
-                <option th:each="y : ${yearList}" th:value="'/games?year=' + ${y}" th:selected="${y} == ${year}">
-                    [[${y}]]
-                </option>
-            </select>
-        </form>
+
+        <h1>[[${name}]]</h1>
 
         <p>
             [[${summary.numGames}]] 戦
@@ -38,7 +27,6 @@
         <table class="bbase">
             <tr>
                 <th>日時</th>
-                <th>対戦相手</th>
                 <th>勝敗</th>
                 <th>得点</th>
                 <th>失点</th>
@@ -48,17 +36,16 @@
                     <a th:href="@{/events/{id}(id=${game.game.eventId})}"
                        th:text="${#dates.format(game.date,'yyyy-MM-dd HH:mm')}"></a>
                 </td>
-                <td>
-                    <a th:href="@{/teams/{team}(team=${game.game.getEvent().getOpponent()})}"
-                       th:text="${game.game.getEvent().getOpponent()}"></a>
-                </td>
                 <td align="center" th:text="${game.result}"></td>
                 <td align="right" th:text="${game.game.getPointGot()}"></td>
                 <td align="right" th:text="${game.game.getPointLost()}"></td>
         </table>
-    </div>
+
+    </div> <!-- content -->
 
     <div th:replace="common :: footer">...</div>
-</div>
+
+</div> <!-- container -->
+
 </body>
 </html>

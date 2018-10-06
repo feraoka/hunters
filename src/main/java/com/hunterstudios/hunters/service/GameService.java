@@ -34,12 +34,12 @@ public class GameService {
     public GameSummaryView getSummary(int year) {
         GameSummaryView view = new GameSummaryView();
         Period period = DateHelper.createYearPeriod(year);
-        List<Game> gameList = gameRepository.selectByPeriod(period);
-        view.setNumGames(gameList.size());
-        view.setNumWons((int)gameList.stream().filter(g -> g.getResult() > 0).count());
-        view.setNumLosts((int)gameList.stream().filter(g -> g.getResult() < 0).count());
-        view.setNumDrews((int)gameList.stream().filter(g -> g.getResult() == 0).count());
-        view.setGames(gameList.stream().map(GameView::new).collect(Collectors.toList()));
+        List<Game> list = gameRepository.selectByPeriod(period);
+        view.setNumGames(list.size());
+        view.setNumWins((int)list.stream().filter(g -> g.getResult() > 0).count());
+        view.setNumLoses((int)list.stream().filter(g -> g.getResult() < 0).count());
+        view.setNumDraws((int)list.stream().filter(g -> g.getResult() == 0).count());
+        view.setGames(list.stream().map(GameView::new).collect(Collectors.toList()));
         return view;
     }
 

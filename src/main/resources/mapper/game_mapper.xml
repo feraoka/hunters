@@ -5,7 +5,9 @@
 <mapper namespace="com.hunterstudios.hunters.repository.GameRepository">
 
     <select id="getGame" resultType="Game">
-        SELECT * FROM games WHERE event_id = #{eventId}
+        SELECT *
+        FROM games
+        WHERE event_id = #{eventId}
     </select>
 
     <select id="getLastYear"
@@ -30,7 +32,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="selectByPeriod" resultMap="gameResult">
+    <sql id="gameEvent">
         SELECT games.event_id   AS game_event_id,
                games.result     AS game_result,
                games.bat_first  AS game_bat_first,
@@ -49,9 +51,20 @@
                events.expense   AS event_expense
         FROM games
                  INNER JOIN events ON games.event_id = events.id
+    </sql>
+
+    <select id="selectByPeriod" resultMap="gameResult">
+        <include refid="gameEvent"/>
         WHERE events.date &gt;= #{begin}
-          AND events.date &lt;= #{end}
-          AND events.status = 2
+        AND events.date &lt;= #{end}
+        AND events.status = 2
+        ORDER BY events.date
+    </select>
+
+    <select id="selectByTeam" resultMap="gameResult">
+        <include refid="gameEvent"/>
+        WHERE events.opponent = #{team}
+        AND events.status = 2
         ORDER BY events.date
     </select>
 
@@ -93,12 +106,24 @@
 
     <update id="update">
         UPDATE games
-        SET bat_first = #{batFirst},
-            score_a = #{scoreA},
-            score_b = #{scoreB},
-            result = #{result},
-            point_got = #{pointGot},
+        SET bat_first  = #{batFirst},
+            score_a    = #{scoreA},
+            score_b    = #{scoreB},
+            result     = #{result},
+            point_got  = #{pointGot},
             point_lost = #{pointLost}
         WHERE event_id = #{eventId}
     </update>
+
+    <select id="getSummaryByTeam" resultType="GameTeam">
+        SELECT events.opponent                                    AS team,
+               count(games.result)                                AS numMatches,
+               sum(CASE WHEN games.result = 1 THEN 1 ELSE 0 END)  AS numWins,
+               sum(CASE WHEN games.result = -1 THEN 1 ELSE 0 END) AS numLoses,
+               sum(CASE WHEN games.result = 0 THEN 1 ELSE 0 END)  AS numDraws
+        FROM games
+                 INNER JOIN events ON games.event_id = events.id
+        GROUP BY events.opponent
+        ORDER BY numMatches DESC, numWins DESC, numLoses DESC, numDraws DESC
+    </select>
 </mapper>

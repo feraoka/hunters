@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Top Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base_025zilla.css}"/>
+</head>
+
+<body>
+
+<div id="container">
+    <div th:replace="common :: header">...</div>
+    <div th:replace="common :: menu">...</div>
+
+    <div id="content">
+        <h1>チーム別成績</h1>
+
+        <table class="bbase">
+            <tr>
+                <th>チーム</th>
+                <th align="center">対<br/>戦</th>
+                <th align="center">勝</th>
+                <th align="center">敗</th>
+                <th align="center">引<br/>分</th>
+                <th align="center">勝率</th>
+            </tr>
+            <tr th:each="team : ${teams}">
+                <td>
+                    <a th:href="@{/teams/{team}(team=${team.team})}"
+                       th:text="${team.team}"></a>
+                </td>
+                <td class="number" th:text="${team.numMatches}"></td>
+                <td class="number" th:text="${team.numWins}"></td>
+                <td class="number" th:text="${team.numLoses}"></td>
+                <td class="number" th:text="${team.numDraws}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(team.rate, 1, 3)}"></td>
+            </tr>
+        </table>
+
+    </div> <!-- content -->
+
+    <div th:replace="common :: footer">...</div>
+
+</div> <!-- container -->
+
+</body>
+</html>

@@ -99,7 +99,8 @@ CREATE TABLE `events` (
   `modified` datetime DEFAULT NULL,
   `expense` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  INDEX (`date`, `status`, `type`)
+  INDEX (`date`, `status`, `type`),
+  INDEX (`opponent`, `status`)
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 

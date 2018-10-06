@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS events (
   note     TEXT,
   expense  BOOL                  DEFAULT 0,
   PRIMARY KEY (id),
-  INDEX (date, status, type)
+  INDEX (date, status, type),
+  INDEX (opponent, status)
 );
 
 CREATE TABLE IF NOT EXISTS attendees (

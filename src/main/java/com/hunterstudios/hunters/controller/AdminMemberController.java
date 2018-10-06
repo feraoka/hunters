@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/members")
+@RequestMapping("/admin")
 public class AdminMemberController {
 
     @NonNull
@@ -28,14 +28,14 @@ public class AdminMemberController {
         binder.addValidators(memberValidator);
     }
 
-    @GetMapping("")
+    @GetMapping("members")
     public String getMembersForm(Model model) {
         model.addAttribute("members", memberService.getMemberList());
         model.addAttribute("form", new MemberForm());
         return "edit_member";
     }
 
-    @PostMapping("")
+    @PostMapping("members")
     public String addMembers(@ModelAttribute("form") @Valid MemberForm form, BindingResult result, Model model) {
         model.addAttribute("members", memberService.getMemberList());
         if (result.hasErrors()) {

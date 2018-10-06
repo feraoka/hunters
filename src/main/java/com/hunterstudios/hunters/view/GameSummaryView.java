@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class GameSummaryView {
     private int numGames;
-    private int numWons;
-    private int numLosts;
-    private int numDrews;
+    private int numWins;
+    private int numLoses;
+    private int numDraws;
     private List<GameView> games;
 
 }
