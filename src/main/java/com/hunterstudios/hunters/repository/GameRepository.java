@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository {
     Game getGame(int eventId);
     Integer getLastYear();
-    List<String> getYearList();
+    List<Integer> getYearList();
     List<Game> selectByPeriod(Period period);
     List<Game> selectByTeam(String team);
     Integer getCount(Period period);

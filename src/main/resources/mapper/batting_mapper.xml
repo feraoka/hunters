@@ -34,6 +34,7 @@
                  LEFT OUTER JOIN members ON batters.member_id = members.id
         WHERE events.date &gt;= #{begin}
           AND events.date &lt;= #{end}
+          AND members.status = 1
         GROUP BY members.id, members.nick_name
     </select>
 
@@ -70,6 +71,7 @@
                                            INNER JOIN games ON events.id = games.event_id
                                   ORDER BY events.date DESC
                                   LIMIT #{n}) as t)
+          AND members.status = 1
         GROUP BY members.id, members.nick_name
     </select>
 
@@ -103,7 +105,9 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM battings WHERE id = #{id}
+        DELETE
+        FROM battings
+        WHERE id = #{id}
     </delete>
 
     <select id="selectByInning" resultType="Batting">

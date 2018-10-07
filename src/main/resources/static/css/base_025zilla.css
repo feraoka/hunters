@@ -486,3 +486,23 @@ form.login input {
 form.login input[type="submit"] {
     margin-top: 10px;
 }
+
+div.float3 {
+    font-size: 0.7em;
+    color: #aaa;
+    width: 3em;
+    text-align: right;
+    display: inline-block;
+}
+div.digit2 {
+    font-size: 0.7em;
+    color: #aaa;
+    width: 1.5em;
+    text-align: right;
+    display: inline-block;
+}
+div.title-name {
+    margin-left: 7px;
+    margin-right: 7px;
+    display: inline-block;
+}

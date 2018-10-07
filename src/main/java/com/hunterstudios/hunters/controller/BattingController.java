@@ -4,6 +4,7 @@ import com.hunterstudios.hunters.service.BattingService;
 import com.hunterstudios.hunters.service.EventService;
 import com.hunterstudios.hunters.service.GameService;
 import com.hunterstudios.hunters.view.BattingSummaryView;
+import com.hunterstudios.hunters.view.TitleView;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,12 @@ public class BattingController {
         model.addAttribute("ineffective", summary.getIneffectiveSummary());
         model.addAttribute("ineffectiveCount", summary.getIneffectiveSummary().size());
         return "batting_list";
+    }
+
+    @GetMapping("/battings/titles")
+    public String getBattingTitles(Model model) {
+        List<TitleView> view = battingService.getTitleList();
+        model.addAttribute("titles", view);
+        return "batting_title_list";
     }
 }

@@ -26,6 +26,7 @@
                  INNER JOIN events ON games.event_id = events.id
         ORDER BY year
     </select>
+
     <select id="selectEvent" resultType="Event">
         SELECT *
         FROM events

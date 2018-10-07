@@ -52,7 +52,7 @@ public class GameService {
     }
 
     public List<String> getYearList() {
-        return gameRepository.getYearList();
+        return gameRepository.getYearList().stream().map(String::valueOf).collect(Collectors.toList());
     }
 
     public ScoreboardForm getScoreboardForm(int eventId) {
