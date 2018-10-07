@@ -23,7 +23,7 @@
 
     <select id="getLastYear"
             resultType="Integer">
-        SELECT YEAR(date) as year
+        SELECT YEAR(date) AS year
         FROM events
         WHERE status = 2
         ORDER BY date DESC
@@ -31,8 +31,8 @@
     </select>
 
     <select id="getYearList"
-            resultType="String">
-        SELECT DISTINCT YEAR(date) as year
+            resultType="Integer">
+        SELECT DISTINCT YEAR(date) AS year
         FROM events
         ORDER BY year
     </select>

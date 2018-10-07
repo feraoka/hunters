@@ -21,7 +21,7 @@
 
     <select id="getYearList"
             resultType="Integer">
-        SELECT DISTINCT YEAR(date) as year
+        SELECT DISTINCT YEAR(events.date) AS year
         FROM games
                  INNER JOIN events ON games.event_id = events.id
         ORDER BY year

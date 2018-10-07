@@ -72,7 +72,7 @@
             </tr>
 
             <tr th:if="${ineffectiveCount}">
-                <td colspan=17 align="center"> 規定試合数未満</td>
+                <td colspan=18 align="center"> 規定試合数未満</td>
             </tr>
 
             <tr th:if="${ineffectiveCount}" th:each="batter : ${ineffective}">
@@ -96,6 +96,30 @@
                 <td class="number" th:text="${batter.noi}"></td>
             </tr>
 
+            <tr>
+                <td colspan=18 height="3px"></td>
+            </tr>
+
+            <tr th:if="${total}">
+                <td>Total</td>
+                <td class="number" th:text="${total.game}"></td>
+                <td class="number" th:text="${total.daseki}"></td>
+                <td class="number" th:text="${total.dasu}"></td>
+                <td class="number" th:text="${total.hit}"></td>
+                <td class="number" th:text="${total.fball}"></td>
+                <td class="number" th:text="${total.dball}"></td>
+                <td class="number" th:text="${total.sout}"></td>
+                <td class="number" th:text="${total.steal}"></td>
+                <td class="number" th:text="${total.hit2}"></td>
+                <td class="number" th:text="${total.hit3}"></td>
+                <td class="number" th:text="${total.homerun}"></td>
+                <td class="number" th:text="${total.rbi}"></td>
+                <td class="number" th:text="${total.point}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(total.averageHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(total.obpHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${#numbers.formatDecimal(total.slaggingHalfUp, 1, 3)}"></td>
+                <td class="number" th:text="${total.noi}"></td>
+            </tr>
         </table>
 
         <h4>おことわり</h4>

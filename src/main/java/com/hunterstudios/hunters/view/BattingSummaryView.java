@@ -8,4 +8,5 @@ import lombok.Data;
 public class BattingSummaryView {
     private List<BattingSummary> effectiveSummary;
     private List<BattingSummary> ineffectiveSummary;
+    private BattingSummary total;
 }

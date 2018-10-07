@@ -17,12 +17,13 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping("/games")
-    public String getGameList(@RequestParam(name = "year", required = false) Integer requestedYear, Model model) {
+    public String getGameList(@RequestParam(name = "year", required = false) String requestedYear, Model model) {
+        int year = requestedYear == null ? gameService.getRecentYear()
+                : requestedYear.equals("All") ? 0 : Integer.valueOf(requestedYear);
+        String yearString = year == 0 ? "All" : String.valueOf(year);
         List<String> yearList = gameService.getYearList();
         model.addAttribute("yearList", yearList);
-        int year = requestedYear == null ? gameService.getRecentYear() : requestedYear;
-        model.addAttribute("year", year);
-
+        model.addAttribute("year", yearString);
         model.addAttribute("summary", gameService.getSummary(year));
         return "game_list";
     }

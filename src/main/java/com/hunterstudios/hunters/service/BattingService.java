@@ -44,13 +44,41 @@ public class BattingService {
             e.calculate();
         }
         summary.sort(map.get("average").thenComparing(BattingSummary::getMemberId));
-        int requiredNumGames = (gameRepository.getCount(period) + 1) / 2;
+        int numGames = gameRepository.getCount(period);
+        int requiredNumGames = (numGames + 1) / 2;
         BattingSummaryView view = new BattingSummaryView();
         view.setEffectiveSummary(summary.stream().filter(e -> e.getGame() >= requiredNumGames)
                 .collect(Collectors.toList()));
         view.setIneffectiveSummary(summary.stream().filter(e -> e.getGame() < requiredNumGames)
                 .collect(Collectors.toList()));
+        if (summary.size() > 0) {
+            BattingSummary total = getTotalBattingSummary(summary);
+            total.setGame(numGames);
+            view.setTotal(total);
+        }
         return view;
+    }
+
+    private BattingSummary getTotalBattingSummary(List<BattingSummary> all) {
+        BattingSummary total = new BattingSummary();
+        all.forEach(b -> {
+            total.setDaseki(total.getDaseki() + b.getDaseki());
+            total.setDasu(total.getDasu() + b.getDasu());
+            total.setPoint(total.getPoint() + b.getPoint());
+            total.setSteal(total.getSteal() + b.getSteal());
+            total.setRbi(total.getRbi() + b.getRbi());
+            total.setHit(total.getHit() + b.getHit());
+            total.setHit1(total.getHit1() + b.getHit1());
+            total.setHit2(total.getHit2() + b.getHit2());
+            total.setHit3(total.getHit3() + b.getHit3());
+            total.setHomerun(total.getHomerun() + b.getHomerun());
+            total.setSout(total.getSout() + b.getSout());
+            total.setDball(total.getDball() + b.getDball());
+            total.setFball(total.getFball() + b.getFball());
+            total.setRuida(total.getRuida() + b.getRuida());
+        });
+        total.calculate();
+        return total;
     }
 
     Map<Integer, BattingSummary> getBattingSummaryListOfLastNGames(int n) {
@@ -219,7 +247,7 @@ public class BattingService {
                     .filter(b -> b.getAverage() > 0).collect(maxList(averageComparator));
             TitleView.NameValue averageNameValue = new TitleView.NameValue();
             if (average.size() > 0) {
-                averageNameValue.setValue(average.get(0).getAverage());
+                averageNameValue.setValue(average.get(0).getAverageHalfUp());
                 averageNameValue.setNames(average.stream().map(BattingSummary::getName).collect(Collectors.toList()));
                 view.setAverage(averageNameValue);
             }

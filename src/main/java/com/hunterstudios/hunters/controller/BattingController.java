@@ -18,24 +18,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BattingController {
 
     @NonNull
-    private EventService eventService;
-
-    @NonNull
     private BattingService battingService;
 
     @NonNull
     private GameService gameService;
 
     @GetMapping("/battings")
-    public String getBattingList(@RequestParam(name = "year", required = false) Integer requestedYear, Model model) {
-        int year = requestedYear == null ? eventService.getRecentYear() : requestedYear;
-        model.addAttribute("year", year);
+    public String getBattingList(@RequestParam(name = "year", required = false) String requestedYear, Model model) {
+        int year = requestedYear == null ? gameService.getRecentYear()
+                : requestedYear.equals("All") ? 0 : Integer.valueOf(requestedYear);
+        String yearString = year == 0 ? "All" : String.valueOf(year);
+        model.addAttribute("year", yearString);
         List<String> yearList = gameService.getYearList();
         model.addAttribute("yearList", yearList);
         BattingSummaryView summary = battingService.getBattingSummary(year);
         model.addAttribute("summary", summary.getEffectiveSummary());
         model.addAttribute("ineffective", summary.getIneffectiveSummary());
         model.addAttribute("ineffectiveCount", summary.getIneffectiveSummary().size());
+        model.addAttribute("total", summary.getTotal());
         return "batting_list";
     }
 

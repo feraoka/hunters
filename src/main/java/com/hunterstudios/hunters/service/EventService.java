@@ -33,7 +33,7 @@ public class EventService {
     }
 
     public List<String> getYearList() {
-        return eventRepository.getYearList();
+        return eventRepository.getYearList().stream().map(String::valueOf).collect(Collectors.toList());
     }
 
     public int getRecentYear() {
