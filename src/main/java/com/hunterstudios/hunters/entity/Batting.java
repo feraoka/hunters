@@ -42,7 +42,7 @@ public class Batting {
     /** 盗塁 */
     private int steal;
 
-    private static final String[] DIRECTIONS = {"", "投", "捕", "一", "二", "三", "遊", "左", "中", "右"};
+    private static final String[] DIRECTIONS = {"", "投", "捕", "一", "二", "三", "遊", "左", "中", "右", "左", "中", "右"};
     private static final String[] RESULT = {"", "安", "二", "三", "本", "ゴ", "ゴE", "飛", "飛E", "四球", "死球", "三振",
             "振逃", "犠", "打撃妨害"};
 

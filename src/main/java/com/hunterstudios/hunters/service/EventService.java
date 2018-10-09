@@ -108,7 +108,7 @@ public class EventService {
 
             IntStream.rangeClosed(1, innings).forEach(inning -> {
                 List<Batting> battings = batter.getBattings(inning);
-                String result = battings.stream().map(Batting::toString).collect(Collectors.joining());
+                String result = battings.stream().map(Batting::toString).collect(Collectors.joining(", "));
                 line.add(result);
             });
             battingTable.add(line);
