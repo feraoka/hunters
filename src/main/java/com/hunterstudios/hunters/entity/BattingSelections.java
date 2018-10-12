@@ -35,6 +35,9 @@ public class BattingSelections {
         add(new Selection("レフト", 7));
         add(new Selection("センター", 8));
         add(new Selection("ライト", 9));
+        add(new Selection("レフトオーバー", 10));
+        add(new Selection("センターオーバー", 11));
+        add(new Selection("ライトオーバー", 12));
     }};
 
     private static final List<Selection> _rbiList = new ArrayList<Selection>() {{

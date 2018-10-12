@@ -33,7 +33,12 @@ public class Batting {
      */
     private int result;
 
-    /** 打球方向 */
+    /** 打球方向
+     * 1-9: 守備位置
+     * 10: レフトオーバー
+     * 11: センターオーバー
+     * 12: ライトオーバー
+     */
     private int direction;
     /**打点 */
     private int rbi;

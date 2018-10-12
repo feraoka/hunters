@@ -138,7 +138,8 @@ public class BattingService {
         batting.setDirection(form.getDirection());
         batting.setRbi(form.getRbi());
         batting.setPoint(form.isPoint() ? 1 : 0);
-        batting.validate();
+        batting.setSteal(form.getSteal());
+        batting.validate(); // TODO use validator?
 
         if (batting.getId() == 0) {
             battingRepository.insert(batting);
