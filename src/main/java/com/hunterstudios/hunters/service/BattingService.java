@@ -279,7 +279,6 @@ public class BattingService {
 
             viewList.add(view);
         });
-        System.out.println(viewList);
         return viewList;
     }
 

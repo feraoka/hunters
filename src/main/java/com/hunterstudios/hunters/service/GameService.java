@@ -107,7 +107,6 @@ public class GameService {
         game.setPointLost(pointLost);
         game.setResult(Integer.compare(pointGot, pointLost));
         game.setBatFirst(batFirst);
-        System.out.println(game);
         Game record = gameRepository.getGame(form.getEventId());
         if (record == null) {
             gameRepository.insert(game);
