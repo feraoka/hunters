@@ -8,8 +8,8 @@
     <select id="getMembersSortByRecentActivity" resultType="Member">
         SELECT members.id, members.nick_name, max(events.date) as d
         FROM members
-                 INNER JOIN attendees ON members.id = attendees.member_id
-                 INNER JOIN events ON attendees.event_id = events.id
+                 LEFT OUTER JOIN attendees ON members.id = attendees.member_id
+                 LEFT OUTER JOIN events ON attendees.event_id = events.id
         GROUP BY members.id, members.nick_name
         ORDER BY d DESC
     </select>
